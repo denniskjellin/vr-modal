@@ -10,7 +10,7 @@ export default defineConfig({
     outDir: 'dist',
     assetsDir: 'assets',
     cssCodeSplit: true,
-    minify: false,  // Set minify to false to disable JavaScript minification
+    minify: true,
     rollupOptions: {
       output: {
         entryFileNames: 'index.js',
