@@ -2,7 +2,9 @@
   <div class="popup generic-popup" role="dialog" aria-modal="true">
     <div class="popup-overlay" @click="closePopup" aria-hidden="true"></div>
     <div class="popup-content">
-      <button @click="closePopup" type="button" class="btn-close" aria-label="Close"></button>
+      <button @click="closePopup" type="button" class="btn-close" aria-label="Close">
+        &times;
+      </button>
       <div v-if="jsonData">
         <h2 ref="popup-title" tabindex="0" class="popup-title">{{ jsonData.title }}</h2>
         <p class="popup-description">{{ jsonData.description }}</p>
