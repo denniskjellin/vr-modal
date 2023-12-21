@@ -5,39 +5,49 @@
 </template>
 
 <script>
-import Popup from './Popup.vue'
+import Popup from './Popup.vue';
 
 export default {
   name: 'AppContainer',
   components: {
-    Popup
+    Popup,
   },
   data() {
     return {
       isPopupVisible: false,
       popupData: {
-        title: 'Dynamisk rubrik..',
-        description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl eget ultricies  aliquam, nunc sapien ultricies nunc, quis ultricies nisl nunc eget nunc.',
-        linkTitle: 'Gå till nyhetsbrevet',
-        link: 'https://www.google.se'
-      }
-    }
+        title: '',
+        description: '',
+        linkTitle: '',
+        link: '',
+      },
+    };
   },
   mounted() {
-    setTimeout(() => {
-      this.isPopupVisible = true
-    }, 1000)
+    // Fetch data from WordPress and update popupData
+    this.fetchPopupData();
   },
   methods: {
     openPopup() {
-      this.isPopupVisible = true
+      this.isPopupVisible = true;
     },
     closePopup() {
-      this.isPopupVisible = false
-    }
-  }
-}
+      this.isPopupVisible = false;
+    },
+    fetchPopupData() {
+      fetch('https://genteknik.local/wp-json/vr-modal/v1/modal-data')
+        .then(response => response.json())
+        .then(data => {
+          // Update popupData with the fetched data
+          this.popupData = data;
+          this.isPopupVisible = true;
+        })
+        .catch(error => {
+          console.error('Error fetching data from WordPress:', error);
+        });
+    },
+  },
+};
 </script>
 
 <style>

@@ -24,11 +24,13 @@ export default {
       required: true
     }
   },
-  mounted() {
-    window.addEventListener('keydown', this.handleKeyboardNavigation)
-    this.$refs['popup-title'].focus()
-    this.$refs['popup-title'].tabIndex = -1
-  },
+ mounted() {
+  console.log('Popup mounted with data:', this.jsonData);
+  window.addEventListener('keydown', this.handleKeyboardNavigation);
+  this.$refs['popup-title'].focus();
+  this.$refs['popup-title'].tabIndex = -1;
+},
+
   beforeUnmount() {
     window.removeEventListener('keydown', this.handleKeyboardNavigation)
   },
