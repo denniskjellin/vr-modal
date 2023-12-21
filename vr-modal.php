@@ -21,19 +21,6 @@ function run_vr_modal() {
 }
 run_vr_modal();
 
-
-// // Activate plugin
-// function activate_vr_popup() {
-//     // Activation actions, if any
-// }
-// register_activation_hook(__FILE__, 'activate_vr_popup');
-
-// // Deactivate plugin
-// function deactivate_vr_popup() {
-//     // Deactivation actions, if any
-// }
-// register_deactivation_hook(__FILE__, 'deactivate_vr_popup');
-
 // Enqueue Vue.js files on WordPress pages
 function enqueue_vue_scripts() {
     wp_enqueue_script('vr-modal', plugin_dir_url(__FILE__) . 'dist/index.js', array('tooltip-frontend-js-js'), '1.0', true);
