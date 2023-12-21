@@ -41,8 +41,8 @@ function enqueue_vue_scripts() {
 }
 add_action('wp_enqueue_scripts', 'enqueue_vue_scripts', 99);
 
-add_action( 'wp_print_footer_scripts', 'test' );
-function test() {
+add_action( 'wp_print_footer_scripts', 'modal' );
+function modal() {
     ?>
 <div id="app"></div>
 <script type="text/javascript" src="http://genteknik.local/app/plugins/vr-modal/dist/index.js?ver=1.0" id="modal-js"></script>

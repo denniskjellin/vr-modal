@@ -118,19 +118,8 @@ class Vr_Modal {
         ?>
         <div class="wrap">
             <h1><?php esc_html_e('My Menu Section', 'vr-modal-admin'); ?></h1>
-            <div id="app"></div> <!-- This is where your Vue.js app will mount -->
+            <p><?php esc_html_e('This is where the page content goes.', 'vr-modal-admin'); ?></p>
         </div>
-
-        <script>
-            // Inline script to initialize the Vue.js app
-            new Vue({
-                el: '#app',
-                data: {
-                    message: 'Hello Vue.js!',
-                },
-                template: '<div>Celsius{{ message }}</div>',
-            });
-        </script>
         <?php
     }
 }
