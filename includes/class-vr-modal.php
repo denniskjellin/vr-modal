@@ -77,26 +77,39 @@ class Vr_Modal {
     public function load_settings_page()
     {
         ?>
-        <div class="wrap">
-            <h1><?php esc_html_e('VR Modal Settings', 'vr-modal-admin'); ?></h1>
-            <form method="post" action="options.php">
-                <?php settings_fields($this->get_id() . '_settings_group'); ?>
-                <?php do_settings_sections($this->get_id() . '_settings_group'); ?>
-                <label for="popup-title">Popup Title:</label>
-                <input type="text" name="<?php echo $this->get_id(); ?>_settings_data[popup_title]" value="<?php echo esc_attr(get_option($this->get_id() . '_settings_data')['popup_title'] ?? ''); ?>" />
-                <br />
-                <label for="popup-description">Popup Description:</label>
-                <textarea name="<?php echo $this->get_id(); ?>_settings_data[popup_description]"><?php echo esc_textarea(get_option($this->get_id() . '_settings_data')['popup_description'] ?? ''); ?></textarea>
-                <br />
-                <label for="popup-link-title">Popup Link Title:</label>
-                <input type="text" name="<?php echo $this->get_id(); ?>_settings_data[popup_link_title]" value="<?php echo esc_attr(get_option($this->get_id() . '_settings_data')['popup_link_title'] ?? ''); ?>" />
-                <br />
-                <label for="popup-link">Popup Link:</label>
-                <input type="text" name="<?php echo $this->get_id(); ?>_settings_data[popup_link]" value="<?php echo esc_url(get_option($this->get_id() . '_settings_data')['popup_link'] ?? ''); ?>" />
-                <br />
-                <?php submit_button(); ?>
-            </form>
-        </div>
+<div class="wrap">
+    <h1><?php esc_html_e('VR Modal Settings', 'vr-modal-admin'); ?></h1>
+
+    <form method="post" action="options.php">
+        <?php settings_fields($this->get_id() . '_settings_group'); ?>
+        <?php do_settings_sections($this->get_id() . '_settings_group'); ?>
+
+        <table class="form-table">
+            <tr>
+                <th scope="row"><label for="popup-title">Popup Title:</label></th>
+                <td><input type="text" name="<?php echo $this->get_id(); ?>_settings_data[popup_title]" value="<?php echo esc_attr(get_option($this->get_id() . '_settings_data')['popup_title'] ?? ''); ?>" /></td>
+            </tr>
+            <tr>
+                <th scope="row"><label for="popup-description">Popup Description:</label></th>
+                <td>
+                    <textarea name="<?php echo $this->get_id(); ?>_settings_data[popup_description]" style="width: 400px; height: 150px;"><?php echo esc_textarea(get_option($this->get_id() . '_settings_data')['popup_description'] ?? ''); ?></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row"><label for="popup-link-title">Popup Link Title:</label></th>
+                <td><input type="text" name="<?php echo $this->get_id(); ?>_settings_data[popup_link_title]" value="<?php echo esc_attr(get_option($this->get_id() . '_settings_data')['popup_link_title'] ?? ''); ?>" /></td>
+            </tr>
+            <tr>
+                <th scope="row"><label for="popup-link">Popup Link:</label></th>
+                <td><input type="text" name="<?php echo $this->get_id(); ?>_settings_data[popup_link]" value="<?php echo esc_url(get_option($this->get_id() . '_settings_data')['popup_link'] ?? ''); ?>" /></td>
+            </tr>
+        </table>
+
+        <?php submit_button(); ?>
+    </form>
+</div>
+
+
         <?php
     }
 
