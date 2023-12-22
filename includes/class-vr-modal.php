@@ -4,6 +4,51 @@ class Vr_Modal {
     // Define plugin constants
     const ID = 'vr-modal';
 
+    // Define custom post types
+    const TEXT_DOMAIN = 'vr-modal';
+
+    public function __construct() {
+        // Add hooks for registering custom post type
+        add_action('init', array($this, 'register_custom_post_type'));
+    }
+
+    // Define custom post types
+    public function register_custom_post_type() {
+        $labels = array(
+            'name'               => __('Vr Modals', self::TEXT_DOMAIN),
+            'singular_name'      => __('Vr Modal', self::TEXT_DOMAIN),
+            'menu_name'          => __('Vr Modals', self::TEXT_DOMAIN),
+            'add_new'            => __('Add New', self::TEXT_DOMAIN),
+            'add_new_item'       => __('Add New Vr Modal', self::TEXT_DOMAIN),
+            'edit_item'          => __('Edit Vr Modal', self::TEXT_DOMAIN),
+            'new_item'           => __('New Vr Modal', self::TEXT_DOMAIN),
+            'view_item'          => __('View Vr Modal', self::TEXT_DOMAIN),
+            'search_items'       => __('Search Vr Modals', self::TEXT_DOMAIN),
+            'not_found'          => __('No Vr Modals found', self::TEXT_DOMAIN),
+            'not_found_in_trash' => __('No Vr Modals found in Trash', self::TEXT_DOMAIN),
+        );
+
+        $args = array(
+            'labels'              => $labels,
+            'public'              => true,
+            'publicly_queryable'  => true,
+            'show_ui'             => true,
+            'show_in_menu'        => true,
+            'query_var'           => true,
+            'rewrite'             => array('slug' => 'custom_post_type'),
+            'capability_type'     => 'post',
+            'has_archive'         => true,
+            'hierarchical'        => false,
+            'menu_position'       => null,
+            'supports'            => array('title', 'editor', 'thumbnail', 'excerpt'),
+            'taxonomies'          => array('category', 'post_tag'),
+            'menu_icon'           => 'dashicons-admin-post', 
+        );
+
+        register_post_type('custom_post_type', $args);
+    }
+
+  
     // Define plugin variables
     public function init()
     {
