@@ -1,9 +1,13 @@
 <?php
+// Path: includes/class-vr-modal.php
 class Vr_Modal {
+    // Define plugin constants
     const ID = 'vr-modal';
 
+    // Define plugin variables
     public function init()
     {
+        // Add menu page
         add_action('admin_menu', array($this, 'add_menu_page'), 1);
         add_action('admin_init', array($this, 'register_settings'));
 
@@ -11,6 +15,7 @@ class Vr_Modal {
         add_action('rest_api_init', array($this, 'register_rest_endpoint'));
     }
 
+    // Define plugin functions
     public function get_id()
     {
         return self::ID;
@@ -39,6 +44,7 @@ class Vr_Modal {
                 'dashicons-admin-page'
             );
 
+            // Add submenu page
             add_submenu_page(
                 $this->get_id(),
                 esc_html__('Settings', 'vr-modal-admin'),
@@ -50,6 +56,7 @@ class Vr_Modal {
         }
     }
 
+    // Register settings
     public function register_settings()
     {
         register_setting($this->get_id() . '_settings_group', $this->get_id() . '_settings_data');
@@ -63,6 +70,7 @@ class Vr_Modal {
         ));
     }
 
+    // Get modal data
     public function get_modal_data() {
         $popup_data = array(
             'title' => get_option($this->get_id() . '_settings_data')['popup_title'],
@@ -74,6 +82,7 @@ class Vr_Modal {
         return rest_ensure_response($popup_data);
     }
 
+    // Load settings page - wp admin
     public function load_settings_page()
     {
         ?>
@@ -108,11 +117,10 @@ class Vr_Modal {
         <?php submit_button(); ?>
     </form>
 </div>
-
-
         <?php
     }
 
+    // Load view - wp admin (might change later)
     public function load_view()
     {
         ?>
@@ -123,7 +131,6 @@ class Vr_Modal {
         <?php
     }
 }
-
 
 // Instantiate the class
 $vr_modal = new Vr_Modal();
