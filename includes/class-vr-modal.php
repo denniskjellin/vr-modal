@@ -14,6 +14,8 @@ class Vr_Modal {
 
     // Define custom post types
     public function register_custom_post_type() {
+        $menu_slug = $this->get_id();
+
         $labels = array(
             'name'               => __('Vr Modals', self::TEXT_DOMAIN),
             'singular_name'      => __('Vr Modal', self::TEXT_DOMAIN),
@@ -33,7 +35,7 @@ class Vr_Modal {
             'public'              => true,
             'publicly_queryable'  => true,
             'show_ui'             => true,
-            'show_in_menu'        => true,
+            'show_in_menu'        => $menu_slug,
             'query_var'           => true,
             'rewrite'             => array('slug' => 'custom_post_type'),
             'capability_type'     => 'post',
