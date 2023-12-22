@@ -19,7 +19,7 @@ class Vr_Modal {
         $labels = array(
             'name'               => __('Vr Modals', self::TEXT_DOMAIN),
             'singular_name'      => __('Vr Modal', self::TEXT_DOMAIN),
-            'menu_name'          => __('Vr Modals', self::TEXT_DOMAIN),
+            'menu_name'          => __('Posts', self::TEXT_DOMAIN),
             'add_new'            => __('Add New', self::TEXT_DOMAIN),
             'add_new_item'       => __('Add New Vr Modal', self::TEXT_DOMAIN),
             'edit_item'          => __('Edit Vr Modal', self::TEXT_DOMAIN),

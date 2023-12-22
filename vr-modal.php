@@ -16,7 +16,6 @@ define('VR_MODAL_VERSION', '1.0.0');
 define('VR_MODAL_DIR', 'vr-modal');
 
 require_once plugin_dir_path(__FILE__) . 'includes/class-vr-modal.php';
-require_once plugin_dir_path(__FILE__) . 'includes/post-type-modal.php';
 
 // Run the plugin
 function run_vr_modal() {
