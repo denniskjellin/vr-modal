@@ -32,7 +32,10 @@ export default {
       this.isPopupVisible = true;
     },
     closePopup() {
+      // Hide popup and remove it from the DOM when closed
       this.isPopupVisible = false;
+      const popupDiv = document.getElementById('app');
+      popupDiv.style.display = 'none';
     },
     fetchPopupData() {
       fetch('https://genteknik.local/wp-json/vr-modal/v1/modal-data')
