@@ -37,15 +37,20 @@ async function fetchData() {
 // async function to fetch data and mount the app
 (async () => {
     try {
-        // Fetching data from a WordPress endpoint
         const modalData = await fetchData();
-        // Mounting the app with the retrieved data
-        app.config.globalProperties.$modalData = modalData;
-        // Mounting the app to the element with the id 'app'
-        app.mount('#app');
-    } catch (initError) {
-        // Handle errors during data fetching or app mounting
-        console.error('Error during app initialization:', initError);
+
+        // Check if the user has already seen the popup (based on local storage)
+        const hasSeenPopup = localStorage.getItem('popupSeen');
+
+        if (!hasSeenPopup) {
+            app.config.globalProperties.$modalData = modalData;
+            app.mount('#app');
+
+            // Set an item in local storage to indicate that the user has seen the popup
+            localStorage.setItem('popupSeen', 'true');
+        }
+    } catch (error) {
+        console.error('Error during app initialization:', error);
     }
 })();
 
