@@ -7,6 +7,7 @@ class Vr_Modal {
     // Define custom post types
     const TEXT_DOMAIN = 'vr-modal';
 
+    // Define plugin variables
     public function __construct() {
         // Add hooks for registering custom post type
         add_action('init', array($this, 'register_custom_post_type'));
@@ -52,14 +53,14 @@ class Vr_Modal {
 
   
     // Define plugin variables
-    public function init()
+    public static function init()
     {
         // Add menu page
-        add_action('admin_menu', array($this, 'add_menu_page'), 1);
-        add_action('admin_init', array($this, 'register_settings'));
+        add_action('admin_menu', array(new self, 'add_menu_page'), 1);
+        add_action('admin_init', array(new self, 'register_settings'));
 
         // Register REST API endpoint
-        add_action('rest_api_init', array($this, 'register_rest_endpoint'));
+        add_action('rest_api_init', array(new self, 'register_rest_endpoint'));
     }
 
     // Define plugin functions
@@ -87,7 +88,7 @@ class Vr_Modal {
                 esc_html__('VR Modal', 'vr-modal-admin'),
                 'manage_options',
                 $this->get_id(),
-                array(&$this, 'load_view'),
+                array($this, 'load_view'),
                 'dashicons-admin-page'
             );
 
@@ -98,7 +99,7 @@ class Vr_Modal {
                 esc_html__('Settings', 'vr-modal-admin'),
                 'manage_options',
                 $this->get_id() . '_settings',
-                array(&$this, 'load_settings_page')
+                array($this, 'load_settings_page')
             );
         }
     }
@@ -109,6 +110,7 @@ class Vr_Modal {
         register_setting($this->get_id() . '_settings_group', $this->get_id() . '_settings_data');
     }
 
+    // Register REST API endpoint
     public function register_rest_endpoint() {
         register_rest_route('vr-modal/v1', '/modal-data', array(
             'methods' => 'GET',
@@ -179,6 +181,5 @@ class Vr_Modal {
     }
 }
 
-// Instantiate the class
-$vr_modal = new Vr_Modal();
-$vr_modal->init();
+// Initialize the class on the 'plugins_loaded' action
+add_action('plugins_loaded', array('Vr_Modal', 'init'));
