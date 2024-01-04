@@ -43,7 +43,7 @@ class Vr_Modal {
             'has_archive'         => true,
             'hierarchical'        => false,
             'menu_position'       => null,
-            'supports'            => array('title', 'editor', 'thumbnail', 'excerpt'),
+            'supports'            => array('title', 'editor'),
             'taxonomies'          => array('category', 'post_tag'),
             'menu_icon'           => 'dashicons-admin-post', 
         );

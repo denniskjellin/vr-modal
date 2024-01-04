@@ -42,7 +42,24 @@ async function fetchData() {
         // Check if the user has already seen the popup (based on local storage)
         const hasSeenPopup = localStorage.getItem('popupSeen');
 
-        if (!hasSeenPopup) {
+        // but back ! before hasSeenPopup.. !IMPORTANT!
+        // but back ! before hasSeenPopup.. !IMPORTANT!
+        // but back ! before hasSeenPopup.. !IMPORTANT!
+
+        // if (!hasSeenPopup) {
+        //     app.config.globalProperties.$modalData = modalData;
+        //     app.mount('#app');
+
+        //     // Set an item in local storage to indicate that the user has seen the popup
+        //     localStorage.setItem('popupSeen', 'true');
+        // }
+
+        // but back ! before hasSeenPopup.. !IMPORTANT!
+        // but back ! before hasSeenPopup.. !IMPORTANT!
+        // but back ! before hasSeenPopup.. !IMPORTANT!
+
+
+        if (hasSeenPopup) {
             app.config.globalProperties.$modalData = modalData;
             app.mount('#app');
 
