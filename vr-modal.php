@@ -32,11 +32,11 @@ function enqueue_vue_scripts() {
 add_action('wp_enqueue_scripts', 'enqueue_vue_scripts', 999);
 
 // Add shortcode
-add_action( 'wp_print_footer_scripts', 'modal' );
+add_action('wp_print_footer_scripts', 'modal');
 function modal() {
     ?>
-<div id="app"></div>
-<script type="text/javascript" src="http://genteknik.local/app/plugins/vr-modal/dist/index.js?ver=1.0" id="modal-js"></script>
-<?php
-    
+    <div id="app"></div>
+    <script type="text/javascript" src="<?php echo esc_url(plugin_dir_url(__FILE__) . 'dist/index.js'); ?>?ver=<?php echo esc_attr(VR_MODAL_VERSION); ?>" id="modal-js"></script>
+    <?php
 }
+
