@@ -35,7 +35,7 @@ export default {
       // Hide popup and remove it from the DOM when closed
       this.isPopupVisible = false;
       const popupDiv = document.getElementById('app');
-      popupDiv.style.display = 'none';
+      popupDiv.remove();
     },
     fetchPopupData() {
        currentDomain = window.location.hostname;
