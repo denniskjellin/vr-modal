@@ -10,9 +10,6 @@ import AppContainer from './components/AppContainer.vue'
 export default {
   components: {
     AppContainer
-  },
-  mounted() {
-    console.log('app mountar')
   }
 }
 </script>

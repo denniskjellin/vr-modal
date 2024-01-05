@@ -18,46 +18,42 @@ import App from './App.vue';
 // Create the Vue app instance
 const app = createApp(App);
 
+// Declare currentDomain outside the try block
+let currentDomain;
+
 // Function to fetch data asynchronously
-async function fetchData() {
+async function fetchData(url) {
     try {
-        // Fetching data from a WordPress endpoint
-        const response = await fetch('https://genteknik.local/wp-json/vr-modal/v1/modal-data');
+        // Fetching data from the provided endpoint
+        const response = await fetch(url);
+
         // Parsing the response as JSON
         const data = await response.json();
+
         // Returning the data
         return data;
+
     } catch (fetchError) {
         // Handle errors during data fetching
-        console.error('Error fetching data from WordPress:', fetchError);
+        console.error('Error fetching data:', fetchError);
         throw fetchError;
     }
 }
 
+
 // async function to fetch data and mount the app
 (async () => {
+    let urlEndpoint; // Declare urlEndpoint outside the try block
+
     try {
-        const modalData = await fetchData();
+        // Construct the WordPress endpoint URL based on the current domain
+        currentDomain = window.location.hostname;
+        urlEndpoint = `https://${currentDomain}/wp-json/vr-modal/v1/modal-data`;
+
+        const modalData = await fetchData(urlEndpoint);
 
         // Check if the user has already seen the popup (based on local storage)
         const hasSeenPopup = localStorage.getItem('popupSeen');
-
-        // but back ! before hasSeenPopup.. !IMPORTANT!
-        // but back ! before hasSeenPopup.. !IMPORTANT!
-        // but back ! before hasSeenPopup.. !IMPORTANT!
-
-        // if (!hasSeenPopup) {
-        //     app.config.globalProperties.$modalData = modalData;
-        //     app.mount('#app');
-
-        //     // Set an item in local storage to indicate that the user has seen the popup
-        //     localStorage.setItem('popupSeen', 'true');
-        // }
-
-        // but back ! before hasSeenPopup.. !IMPORTANT!
-        // but back ! before hasSeenPopup.. !IMPORTANT!
-        // but back ! before hasSeenPopup.. !IMPORTANT!
-
 
         if (hasSeenPopup) {
             app.config.globalProperties.$modalData = modalData;
@@ -66,8 +62,9 @@ async function fetchData() {
             // Set an item in local storage to indicate that the user has seen the popup
             localStorage.setItem('popupSeen', 'true');
         }
+
     } catch (error) {
         console.error('Error during app initialization:', error);
     }
-})();
 
+})();

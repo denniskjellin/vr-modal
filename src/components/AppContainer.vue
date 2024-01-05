@@ -38,7 +38,10 @@ export default {
       popupDiv.style.display = 'none';
     },
     fetchPopupData() {
-      fetch('https://genteknik.local/wp-json/vr-modal/v1/modal-data')
+       let urlEndpoint; 
+       currentDomain = window.location.hostname;
+       urlEndpoint = `https://${currentDomain}/wp-json/vr-modal/v1/modal-data`;
+      fetch(urlEndpoint)
         .then(response => response.json())
         .then(data => {
           // Update popupData with the fetched data
