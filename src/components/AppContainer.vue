@@ -38,7 +38,6 @@ export default {
       popupDiv.style.display = 'none';
     },
     fetchPopupData() {
-       let urlEndpoint; 
        currentDomain = window.location.hostname;
        urlEndpoint = `https://${currentDomain}/wp-json/vr-modal/v1/modal-data`;
       fetch(urlEndpoint)
