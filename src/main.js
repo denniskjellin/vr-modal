@@ -40,7 +40,6 @@ async function fetchData(url) {
     }
 }
 
-
 // async function to fetch data and mount the app
 (async () => {
     let urlEndpoint; // Declare urlEndpoint outside the try block
@@ -53,15 +52,7 @@ async function fetchData(url) {
         const modalData = await fetchData(urlEndpoint);
 
         // Check if the user has already seen the popup (based on local storage)
-        const hasSeenPopup = localStorage.getItem('popupSeen');
-
-        if (hasSeenPopup) {
-            app.config.globalProperties.$modalData = modalData;
-            app.mount('#app');
-
-            // Set an item in local storage to indicate that the user has seen the popup
-            localStorage.setItem('popupSeen', 'true');
-        }
+        app.mount('#vr-modal');
 
     } catch (error) {
         console.error('Error during app initialization:', error);

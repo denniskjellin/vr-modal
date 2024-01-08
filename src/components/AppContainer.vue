@@ -38,13 +38,16 @@ export default {
       popupDiv.remove();
     },
     fetchPopupData() {
-       currentDomain = window.location.hostname;
-       urlEndpoint = `https://${currentDomain}/wp-json/vr-modal/v1/modal-data`;
+      const currentDomain = window.location.hostname;
+      const urlEndpoint = `https://${currentDomain}/wp-json/vr-modal/v1/modal-data`;
+
       fetch(urlEndpoint)
         .then(response => response.json())
         .then(data => {
           // Update popupData with the fetched data
           this.popupData = data;
+
+          // Move setting isPopupVisible to here
           this.isPopupVisible = true;
         })
         .catch(error => {
@@ -56,7 +59,7 @@ export default {
 </script>
 
 <style>
-#app {
+#vr-modal {
   position: absolute;
   top: 0;
   left: 0;
