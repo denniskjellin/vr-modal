@@ -38,22 +38,35 @@ export default {
       popupDiv.remove();
     },
     fetchPopupData() {
-      const currentDomain = window.location.hostname;
-      const urlEndpoint = `https://${currentDomain}/wp-json/vr-modal/v1/modal-data`;
+      
+  const currentDomain = window.location.hostname;
+  const urlEndpoint = `https://${currentDomain}/wp-json/vr-modal/v1/modal-data`;
 
-      fetch(urlEndpoint)
-        .then(response => response.json())
-        .then(data => {
-          // Update popupData with the fetched data
-          this.popupData = data;
+  fetch(urlEndpoint)
+    .then(response => response.json())
+    .then(data => {
+      // Check if data is not empty and has at least one post
+      if (data.length > 0) {
+        const firstPost = data[0];
 
-          // Move setting isPopupVisible to here
-          this.isPopupVisible = true;
-        })
-        .catch(error => {
-          console.error('Error fetching data from WordPress:', error);
-        });
-    },
+        // Update popupData with the data from the first post
+        this.popupData.title = firstPost.title;
+        this.popupData.description = firstPost.description;
+        // If 'linkTitle' and 'link' are present in the post data, update them as well
+        if ('linkTitle' in firstPost && 'link' in firstPost) {
+          this.popupData.linkTitle = firstPost.linkTitle;
+          this.popupData.link = firstPost.link;
+        }
+      }
+
+      // Move setting isPopupVisible to here
+      this.isPopupVisible = true;
+    })
+    .catch(error => {
+      console.error('Error fetching data from WordPress:', error);
+    });
+},
+
   },
 };
 </script>
