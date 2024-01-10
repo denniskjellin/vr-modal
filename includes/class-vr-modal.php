@@ -49,7 +49,7 @@ class Vr_Modal {
 			'has_archive'         => true,
 			'hierarchical'        => false,
 			'menu_position'       => null,
-			'supports'            => array('title', 'editor'),
+			'supports'            => array('title', 'custom-fields', 'thumbnail','page-attributes'),
 			'menu_icon'           => 'dashicons-nametag',
 			'menu_position'       => 105,
 		);
@@ -125,33 +125,26 @@ class Vr_Modal {
 		));
 	}
 
-	// Get modal data
-	public function get_modal_data() {
+ // Get modal data
+public function get_modal_data() {
+    $args  = array(
+        'post_type'      => 'custom_post_type',
+        'posts_per_page' => -1,
+    );
 
-		$args = array(
-			'post_type' => 'custom_post_type',
-			'posts_per_page' => -1,
-		);
+    $posts = get_posts($args);
 
-		$posts = get_posts($args);
+    $_posts = array();
+    foreach ($posts as $key => $post) {
+        $_posts[$key]['title']       = $post->post_title;
+        $_posts[$key]['description'] = get_post_meta($post->ID, 'description', true);
+        $_posts[$key]['linkTitle']   = get_post_meta($post->ID, 'linkTitle', true);
+        $_posts[$key]['link']        = get_post_meta($post->ID, 'link', true);
+    }
 
-		$_posts = array();
-		foreach ($posts as $key => $post) {
-			$_posts[$key]['title'] = $post->post_title;
-			$_posts[$key]['description'] = $post->post_content;
-		}
+    return rest_ensure_response($_posts);
+}
 
-		//print_r( $posts);
-
-		// $popup_data = array(
-		// 	'title'       => get_option($this->get_id() . '_settings_data')['popup_title'],
-		// 	'description' => get_option($this->get_id() . '_settings_data')['popup_description'],
-		// 	'linkTitle'   => get_option($this->get_id() . '_settings_data')['popup_link_title'],
-		// 	'link'        => get_option($this->get_id() . '_settings_data')['popup_link'],
-		// );
-
-		return rest_ensure_response($_posts);
-	}
 
 	// Load settings page - wp admin
 	public function load_settings_page()

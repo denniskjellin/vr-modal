@@ -61,6 +61,7 @@ export default {
 
       // Move setting isPopupVisible to here
       this.isPopupVisible = true;
+      console.log('Data from WordPress:', data)
     })
     .catch(error => {
       console.error('Error fetching data from WordPress:', error);
