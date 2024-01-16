@@ -136,10 +136,10 @@ public function get_modal_data() {
 
     $_posts = array();
     foreach ($posts as $key => $post) {
-        $_posts[$key]['title']       = $post->post_title;
-        $_posts[$key]['description'] = get_post_meta($post->ID, 'description', true);
-        $_posts[$key]['linkTitle']   = get_post_meta($post->ID, 'linkTitle', true);
-        $_posts[$key]['link']        = get_post_meta($post->ID, 'link', true);
+        $_posts[$key]['rubrik']       = $post->post_title;
+        $_posts[$key]['innehåll'] = get_post_meta($post->ID, 'innehåll', true);
+        $_posts[$key]['knapptext']   = get_post_meta($post->ID, 'knapptext', true);
+        $_posts[$key]['url']        = get_post_meta($post->ID, 'url', true);
     }
 
     return rest_ensure_response($_posts);

@@ -16,10 +16,10 @@ export default {
     return {
       isPopupVisible: false,
       popupData: {
-        title: '',
-        description: '',
-        linkTitle: '',
-        link: '',
+        rubrik: '',
+        innehåll: '',
+        knapptext: '',
+        url: '',
       },
     };
   },
@@ -50,12 +50,12 @@ export default {
         const firstPost = data[0];
 
         // Update popupData with the data from the first post
-        this.popupData.title = firstPost.title;
-        this.popupData.description = firstPost.description;
-        // If 'linkTitle' and 'link' are present in the post data, update them as well
-        if ('linkTitle' in firstPost && 'link' in firstPost) {
-          this.popupData.linkTitle = firstPost.linkTitle;
-          this.popupData.link = firstPost.link;
+        this.popupData.rubrik = firstPost.rubrik;
+        this.popupData.innehåll = firstPost.innehåll;
+        // If 'knapptext' and 'link' are present in the post data, update them as well
+        if ('knapptext' in firstPost && 'url' in firstPost) {
+          this.popupData.knapptext = firstPost.knapptext;
+          this.popupData.url= firstPost.url;
         }
       }
 

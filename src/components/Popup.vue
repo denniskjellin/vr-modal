@@ -6,10 +6,10 @@
 		&times;
 	</button>
 	<div v-if="jsonData">
-		<h2 ref="popup-title" tabindex="0" class="popup-title">{{ jsonData.title }}</h2>
-		<p class="popup-description">{{ jsonData.description }}</p>
-		<a :href="jsonData.link" class="navigation-link" :aria-label="jsonData.linkTitle">
-		{{ jsonData.linkTitle }}
+		<h2 ref="popup-title" tabindex="0" class="popup-title">{{ jsonData.rubrik }}</h2>
+		<p class="popup-description">{{ jsonData.innehåll }}</p>
+		<a :href="jsonData.url" class="navigation-link" :aria-label="jsonData.knapptext">
+		{{ jsonData.knapptext }}
 		</a>
 	</div>
 	</div>
