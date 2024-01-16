@@ -23,14 +23,22 @@ export default {
       },
     };
   },
+  watch: {
+    popupData: {
+      handler(newData) {
+        // Check if there is valid data available before showing the popup
+        if (this.hasValidData(newData)) {
+          this.isPopupVisible = true;
+        }
+      },
+      deep: true,
+    },
+  },
   mounted() {
     // Fetch data from WordPress and update popupData
     this.fetchPopupData();
   },
   methods: {
-    openPopup() {
-      this.isPopupVisible = true;
-    },
     closePopup() {
       // Hide popup and remove it from the DOM when closed
       this.isPopupVisible = false;
@@ -38,36 +46,38 @@ export default {
       popupDiv.remove();
     },
     fetchPopupData() {
-      
-  const currentDomain = window.location.hostname;
-  const urlEndpoint = `https://${currentDomain}/wp-json/vr-modal/v1/modal-data`;
+      const currentDomain = window.location.hostname;
+      const urlEndpoint = `https://${currentDomain}/wp-json/vr-modal/v1/modal-data`;
 
-  fetch(urlEndpoint)
-    .then(response => response.json())
-    .then(data => {
-      // Check if data is not empty and has at least one post
-      if (data.length > 0) {
-        const firstPost = data[0];
+      fetch(urlEndpoint)
+        .then(response => response.json())
+        .then(data => {
+          // Check if data is not empty and has at least one post
+          if (data.length > 0) {
+            const firstPost = data[0];
 
-        // Update popupData with the data from the first post
-        this.popupData.title = firstPost.rubrik;
-        this.popupData.content = firstPost.innehåll;
-        // If 'knapptext' and 'link' are present in the post data, update them as well
-        if ('knapptext' in firstPost && 'url' in firstPost) {
-          this.popupData.btnText = firstPost.knapptext;
-          this.popupData.url= firstPost.url;
-        }
-      }
-
-      // Move setting isPopupVisible to here
-      this.isPopupVisible = true;
-      console.log('Data from WordPress:', data)
-    })
-    .catch(error => {
-      console.error('Error fetching data from WordPress:', error);
-    });
-},
-
+            // Update popupData with the data from the first post
+            this.popupData.title = firstPost.rubrik;
+            this.popupData.content = firstPost.innehåll;
+            // If 'knapptext' and 'link' are present in the post data, update them as well
+            if ('knapptext' in firstPost && 'url' in firstPost) {
+              this.popupData.btnText = firstPost.knapptext;
+              this.popupData.url= firstPost.url;
+            }
+          }
+          console.log('Data from WordPress:', data)
+        })
+        .catch(error => {
+          console.error('Error fetching data from WordPress:', error);
+        });
+    },
+    hasValidData(data) {
+      return (
+        data.title ||
+        data.content ||
+        (data.btnText && data.url)
+      );
+    },
   },
 };
 </script>

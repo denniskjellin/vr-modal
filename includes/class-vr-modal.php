@@ -16,6 +16,55 @@ class Vr_Modal {
 	public function __construct() {
 		// Add hooks for registering custom post type
 		add_action('init', array($this, 'register_custom_post_type'));
+		add_action( 'add_meta_boxes', array( $this, 'add_meta_box') );
+		add_action( 'save_post', array( $this, 'save_post'), 10, 2 );
+	}
+
+	public function save_post( $post_id, $post  ){
+
+		if( $post->post_type !== 'custom_post_type' ){
+			return;
+		}
+
+
+		echo $post_id;
+
+		echo get_post_type( $post_id );
+		echo "<pre>";
+		print_r($_POST);
+
+		add_post_meta( $post_id, 'vrm_title', $_POST['vrm_title'], true );
+		add_post_meta( $post_id, 'vrm_content', $_POST['vrm_content'], true );
+
+		
+		die();
+	}
+
+	public function add_meta_box( ){
+		add_meta_box(
+			'vr-modal-meta-box',
+			'VR Modal',
+			array($this, 'render_meta_box'),
+			'custom_post_type',
+			'normal',
+			'high'
+		);
+	}
+
+	public function render_meta_box( $post ){
+	
+	//	echo "<pre>";
+	//	print_r( $post );
+		?>
+		<div>
+			<label>Title</label>
+			<input name="vrm_title" type="text" id="" value="<?php echo get_post_meta( $post->ID, 'vrm_title', true );?>">
+</div>
+<div>
+			<label for="vrm-content">Innehåll</label>
+			<textarea name="vrm_content" rows="10" cols="" id="vrm-content" class="large-text"></textarea>
+	</div>
+			<?php
 	}
 
 	// Define custom post types
@@ -127,62 +176,62 @@ class Vr_Modal {
 
  // Get modal data
 public function get_modal_data() {
-    $args  = array(
-        'post_type'      => 'custom_post_type',
-        'posts_per_page' => -1,
-    );
+    $enable_feature = get_option($this->get_id() . '_settings_data')['enable_feature'] ?? 0;
 
-    $posts = get_posts($args);
+    if ($enable_feature) {
+        $args  = array(
+            'post_type'      => 'custom_post_type',
+            'posts_per_page' => -1,
+        );
 
-    $_posts = array();
-    foreach ($posts as $key => $post) {
-        $_posts[$key]['rubrik']       = $post->post_title;
-        $_posts[$key]['innehåll'] = get_post_meta($post->ID, 'innehåll', true);
-        $_posts[$key]['knapptext']   = get_post_meta($post->ID, 'knapptext', true);
-        $_posts[$key]['url']        = get_post_meta($post->ID, 'url', true);
+        $posts = get_posts($args);
+
+        $_posts = array();
+        foreach ($posts as $key => $post) {
+            $_posts[$key]['rubrik']       = $post->post_title;
+            $_posts[$key]['innehåll'] = get_post_meta($post->ID, 'innehåll', true);
+            $_posts[$key]['knapptext']   = get_post_meta($post->ID, 'knapptext', true);
+            $_posts[$key]['url']        = get_post_meta($post->ID, 'url', true);
+        }
+
+        return rest_ensure_response($_posts);
+    } else {
+        // Feature is disabled, return an empty response or an appropriate message
+        return rest_ensure_response(array());
     }
-
-    return rest_ensure_response($_posts);
 }
 
 
+
 	// Load settings page - wp admin
-	public function load_settings_page()
-	{
-		?>
-<div class="wrap">
-	<h1><?php esc_html_e('VR Modal Settings', 'vr-modal-admin'); ?></h1>
+public function load_settings_page()
+{
+    ?>
+    <div class="wrap">
+        <h1><?php esc_html_e('VR Modal Settings', 'vr-modal-admin'); ?></h1>
 
-	<form method="post" action="options.php">
-		<?php settings_fields($this->get_id() . '_settings_group'); ?>
-		<?php do_settings_sections($this->get_id() . '_settings_group'); ?>
+        <form method="post" action="options.php">
+            <?php settings_fields($this->get_id() . '_settings_group'); ?>
+            <?php do_settings_sections($this->get_id() . '_settings_group'); ?>
 
-		<table class="form-table">
-			<tr>
-				<th scope="row"><label for="popup-title">Popup Title:</label></th>
-				<td><input type="text" name="<?php echo $this->get_id(); ?>_settings_data[popup_title]" value="<?php echo esc_attr(get_option($this->get_id() . '_settings_data')['popup_title'] ?? ''); ?>" /></td>
-			</tr>
-			<tr>
-				<th scope="row"><label for="popup-description">Popup Description:</label></th>
-				<td>
-					<textarea name="<?php echo $this->get_id(); ?>_settings_data[popup_description]" style="width: 400px; height: 150px;"><?php echo esc_textarea(get_option($this->get_id() . '_settings_data')['popup_description'] ?? ''); ?></textarea>
-				</td>
-			</tr>
-			<tr>
-				<th scope="row"><label for="popup-link-title">Popup Link Title:</label></th>
-				<td><input type="text" name="<?php echo $this->get_id(); ?>_settings_data[popup_link_title]" value="<?php echo esc_attr(get_option($this->get_id() . '_settings_data')['popup_link_title'] ?? ''); ?>" /></td>
-			</tr>
-			<tr>
-				<th scope="row"><label for="popup-link">Popup Link:</label></th>
-				<td><input type="text" name="<?php echo $this->get_id(); ?>_settings_data[popup_link]" value="<?php echo esc_url(get_option($this->get_id() . '_settings_data')['popup_link'] ?? ''); ?>" /></td>
-			</tr>
-		</table>
+            <table class="form-table">
+                <!-- Existing fields -->
 
-		<?php submit_button(); ?>
-	</form>
-</div>
-		<?php
-	}
+                <!-- Toggle switch for enabling/disabling feature -->
+                <tr>
+                    <th scope="row"><label for="enable_feature">Enable Feature:</label></th>
+                    <td>
+                        <input type="checkbox" name="<?php echo $this->get_id(); ?>_settings_data[enable_feature]" <?php checked(1, get_option($this->get_id() . '_settings_data')['enable_feature'] ?? 0); ?> value="1" />
+                    </td>
+                </tr>
+            </table>
+
+            <?php submit_button(); ?>
+        </form>
+    </div>
+    <?php
+}
+
 
 	// Load view - wp admin (might change later)
 	public function load_view()
