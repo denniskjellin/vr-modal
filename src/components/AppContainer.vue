@@ -34,7 +34,7 @@ export default {
     closePopup() {
       // Hide popup and remove it from the DOM when closed
       this.isPopupVisible = false;
-      const popupDiv = document.getElementById('app');
+      const popupDiv = document.getElementById('vr-modal');
       popupDiv.remove();
     },
     fetchPopupData() {
