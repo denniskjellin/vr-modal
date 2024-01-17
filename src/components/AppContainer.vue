@@ -56,11 +56,23 @@ export default {
           if (data.length > 0) {
             const firstPost = data[0];
 
+            console.log('Title:', firstPost.vrm_title);
+            console.log('Content:', firstPost.vrm_content);
+            console.log('Button Title:', firstPost.vrm_button_title);
+            console.log('Button URL:', firstPost.vrm_button_url);
+
+            console.log('firstPost Title:', firstPost.vrm_title);
+            console.log('firstPost Content:', firstPost.vrm_content);
+            console.log('firstPost Button Title:', firstPost.vrm_button_title);
+            console.log('firstPost Button URL:', firstPost.vrm_button_url);
+
+
+
             // Update popupData with the data from the first post
             this.popupData.title = firstPost.vrm_title;
             this.popupData.content = firstPost.vrm_content;
             // If 'vrm_button_title' and 'link' are present in the post data, update them as well
-            if ('vrm_button_title' in firstPost && 'url' in firstPost) {
+            if ('vrm_button_title' in firstPost && 'vrm_button_url' in firstPost) {
               this.popupData.btnText = firstPost.vrm_button_title;
               this.popupData.url= firstPost.vrm_button_url;
             }

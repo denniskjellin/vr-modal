@@ -22,22 +22,32 @@ class Vr_Modal {
 
 	public function save_post( $post_id, $post  ){
 
-		if( $post->post_type !== 'custom_post_type' ){
-			return;
+		if (
+			/**
+			 * Wrong post type
+			 */
+			( $post->post_type !== 'custom_post_type' ) ||
+
+			/**
+			 * Autosave is triggered
+			 */
+			( ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) || ( $post->post_status === 'auto-draft' ) || wp_is_post_revision( $post ) )
+		) {
+			return false;
 		}
 
-		echo $post_id;
+		// echo $post_id;
 
-		echo get_post_type( $post_id );
-		echo "<pre>";
-		print_r($_POST);
+		// echo get_post_type( $post_id );
+		// echo "<pre>";
+		// print_r($_POST);
 
 		add_post_meta( $post_id, 'vrm_title', $_POST['vrm_title'], true );
 		add_post_meta( $post_id, 'vrm_content', $_POST['vrm_content'], true );
 		add_post_meta( $post_id, 'vrm_button_title', $_POST['vrm_button_title'], true );
 		add_post_meta( $post_id, 'vrm_button_url', $_POST['vrm_button_url'], true );
 		
-		die();
+		
 	}
 
 	public function add_meta_box( ){
@@ -56,21 +66,21 @@ class Vr_Modal {
 	//	echo "<pre>";
 	//	print_r( $post );
 		?>
-		<div>
-			<label for="vrm_title">Rubrik</label><br>
-			<input name="vrm_title" type="text" id="" value="<?php echo get_post_meta( $post->ID, 'vrm_title', true );?>">
-		</div>
+		 <div>
+			<label for="vrm-title">Rubrik</label><br>
+			<input name="vrm_title" type="text" id="vrm-title" value="<?php echo get_post_meta( $post->ID, 'vrm_title', true );?>">
+		</div> 
 		<div>
 			<label for="vrm-content">Innehåll</label>
-			<textarea name="vrm_content" rows="10" cols="" id="vrm-content" value="<?php echo get_post_meta( $post->ID, 'vrm_content', true ) ?>" class="large-text"></textarea>
+			<textarea name="vrm_content" rows="10" cols="" id="vrm_content" class="large-text"><?php echo esc_textarea(get_post_meta($post->ID, 'vrm_content', true)); ?></textarea>
 		</div>
 		<div>
 			<label for="vrm_button_title">Knapp rubrik</label><br>
-			<input name="vrm_button_title" type="text" id="" value="<?php echo get_post_meta( $post->ID, 'vrm_button_title', true );?>">
+			<input name="vrm_button_title" type="text" id="vrm_button_title" value="<?php echo get_post_meta( $post->ID, 'vrm_button_title', true );?>">
 		</div>
 		<div>
 			<label for="vrm_button_url">Knapp url</label><br>
-			<input name="vrm_button_url" type="text" id="" value="<?php echo get_post_meta( $post->ID, 'vrm_button_url', true );?>">
+			<input name="vrm_button_url" type="text" id="vrm_button_url" value="<?php echo get_post_meta( $post->ID, 'vrm_button_url', true );?>">
 		</div>
 		
 			<?php
@@ -198,9 +208,9 @@ public function get_modal_data() {
         $_posts = array();
         foreach ($posts as $key => $post) {
             $_posts[$key]['vrm_title']       = $post->post_title;
-            $_posts[$key]['vrm_content'] = get_post_meta($post->ID, 'content', true);
-            $_posts[$key]['vrm_button_title']   = get_post_meta($post->ID, 'btnText', true);
-            $_posts[$key]['vrm_button_url']        = get_post_meta($post->ID, 'url', true);
+            $_posts[$key]['vrm_content'] = get_post_meta($post->ID, 'vrm_content', true);
+            $_posts[$key]['vrm_button_title']   = get_post_meta($post->ID, 'vrm_button_title', true);
+            $_posts[$key]['vrm_button_url']        = get_post_meta($post->ID, 'vrm_button_url', true);
         }
 
         return rest_ensure_response($_posts);
