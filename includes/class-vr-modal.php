@@ -26,7 +26,6 @@ class Vr_Modal {
 			return;
 		}
 
-
 		echo $post_id;
 
 		echo get_post_type( $post_id );
@@ -35,7 +34,8 @@ class Vr_Modal {
 
 		add_post_meta( $post_id, 'vrm_title', $_POST['vrm_title'], true );
 		add_post_meta( $post_id, 'vrm_content', $_POST['vrm_content'], true );
-
+		add_post_meta( $post_id, 'vrm_button_title', $_POST['vrm_button_title'], true );
+		add_post_meta( $post_id, 'vrm_button_url', $_POST['vrm_button_url'], true );
 		
 		die();
 	}
@@ -57,13 +57,22 @@ class Vr_Modal {
 	//	print_r( $post );
 		?>
 		<div>
-			<label>Title</label>
+			<label for="vrm_title">Rubrik</label><br>
 			<input name="vrm_title" type="text" id="" value="<?php echo get_post_meta( $post->ID, 'vrm_title', true );?>">
-</div>
-<div>
+		</div>
+		<div>
 			<label for="vrm-content">Innehåll</label>
-			<textarea name="vrm_content" rows="10" cols="" id="vrm-content" class="large-text"></textarea>
-	</div>
+			<textarea name="vrm_content" rows="10" cols="" id="vrm-content" value="<?php echo get_post_meta( $post->ID, 'vrm_content', true ) ?>" class="large-text"></textarea>
+		</div>
+		<div>
+			<label for="vrm_button_title">Knapp rubrik</label><br>
+			<input name="vrm_button_title" type="text" id="" value="<?php echo get_post_meta( $post->ID, 'vrm_button_title', true );?>">
+		</div>
+		<div>
+			<label for="vrm_button_url">Knapp url</label><br>
+			<input name="vrm_button_url" type="text" id="" value="<?php echo get_post_meta( $post->ID, 'vrm_button_url', true );?>">
+		</div>
+		
 			<?php
 	}
 
@@ -98,7 +107,7 @@ class Vr_Modal {
 			'has_archive'         => true,
 			'hierarchical'        => false,
 			'menu_position'       => null,
-			'supports'            => array('title', 'custom-fields', 'thumbnail','page-attributes'),
+			'supports'            => array('title', 'thumbnail','page-attributes'),
 			'menu_icon'           => 'dashicons-nametag',
 			'menu_position'       => 105,
 		);
@@ -188,10 +197,10 @@ public function get_modal_data() {
 
         $_posts = array();
         foreach ($posts as $key => $post) {
-            $_posts[$key]['rubrik']       = $post->post_title;
-            $_posts[$key]['innehåll'] = get_post_meta($post->ID, 'innehåll', true);
-            $_posts[$key]['knapptext']   = get_post_meta($post->ID, 'knapptext', true);
-            $_posts[$key]['url']        = get_post_meta($post->ID, 'url', true);
+            $_posts[$key]['vrm_title']       = $post->post_title;
+            $_posts[$key]['vrm_content'] = get_post_meta($post->ID, 'content', true);
+            $_posts[$key]['vrm_button_title']   = get_post_meta($post->ID, 'btnText', true);
+            $_posts[$key]['vrm_button_url']        = get_post_meta($post->ID, 'url', true);
         }
 
         return rest_ensure_response($_posts);

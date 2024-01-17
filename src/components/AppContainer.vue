@@ -57,12 +57,12 @@ export default {
             const firstPost = data[0];
 
             // Update popupData with the data from the first post
-            this.popupData.title = firstPost.rubrik;
-            this.popupData.content = firstPost.innehåll;
-            // If 'knapptext' and 'link' are present in the post data, update them as well
-            if ('knapptext' in firstPost && 'url' in firstPost) {
-              this.popupData.btnText = firstPost.knapptext;
-              this.popupData.url= firstPost.url;
+            this.popupData.title = firstPost.vrm_title;
+            this.popupData.content = firstPost.vrm_content;
+            // If 'vrm_button_title' and 'link' are present in the post data, update them as well
+            if ('vrm_button_title' in firstPost && 'url' in firstPost) {
+              this.popupData.btnText = firstPost.vrm_button_title;
+              this.popupData.url= firstPost.vrm_button_url;
             }
           }
           console.log('Data from WordPress:', data)
