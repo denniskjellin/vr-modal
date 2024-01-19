@@ -199,7 +199,7 @@ public function save_post( $post_id, $post ) {
 		));
 	}
 
- // Get modal data
+// Get modal data
 public function get_modal_data() {
     $enable_feature = get_option($this->get_id() . '_settings_data')['enable_feature'] ?? 0;
 
@@ -213,10 +213,10 @@ public function get_modal_data() {
 
         $_posts = array();
         foreach ($posts as $key => $post) {
-            $_posts[$key]['vrm_title']       = $post->post_title;
-            $_posts[$key]['vrm_content'] = get_post_meta($post->ID, 'vrm_content', true);
-            $_posts[$key]['vrm_button_title']   = get_post_meta($post->ID, 'vrm_button_title', true);
-            $_posts[$key]['vrm_button_url']        = get_post_meta($post->ID, 'vrm_button_url', true);
+            $_posts[$key]['vrm_title']       = get_post_meta($post->ID, 'vrm_title', true);
+            $_posts[$key]['vrm_content']     = get_post_meta($post->ID, 'vrm_content', true);
+            $_posts[$key]['vrm_button_title'] = get_post_meta($post->ID, 'vrm_button_title', true);
+            $_posts[$key]['vrm_button_url']   = get_post_meta($post->ID, 'vrm_button_url', true);
         }
 
         return rest_ensure_response($_posts);
