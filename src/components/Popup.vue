@@ -1,19 +1,19 @@
 <template>
-<div class="popup generic-popup" role="dialog" aria-modal="true">
-	<div class="popup-overlay" @click="closePopup" aria-hidden="true"></div>
-	<div class="popup-content">
-	<button @click="closePopup" type="button" class="btn-close" aria-label="Close">
-		&times;
-	</button>
-	<div v-if="jsonData">
-		<h2 ref="popup-title" tabindex="0" class="popup-title">{{ jsonData.title }}</h2>
-		<p class="popup-description">{{ jsonData.content }}</p>
-		<a :href="jsonData.url" class="navigation-link" :aria-label="jsonData.btnText">
-		{{ jsonData.btnText }}
-		</a>
-	</div>
-	</div>
-</div>
+  <div class="popup generic-popup" role="dialog" aria-modal="true">
+    <div class="popup-overlay" @click="closePopup" aria-hidden="true"></div>
+    <div class="popup-content">
+      <button @click="closePopup" type="button" class="btn-close" aria-label="Close">
+        <img src="/src/assets/images/close.svg" alt="Close" />
+      </button>
+      <div v-if="jsonData">
+        <h2 ref="popup-title" tabindex="0" class="popup-title">{{ jsonData.title }}</h2>
+        <p class="popup-description">{{ jsonData.content }}</p>
+        <a :href="jsonData.url" class="navigation-link" :aria-label="jsonData.btnText">
+          {{ jsonData.btnText }}
+        </a>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -96,17 +96,22 @@ methods: {
 	word-break: keep-all;
 }
 .btn-close {
-	color: #333;
+	background: transparent;
+	border: none;
 	position: absolute;
 	top: 10px;
 	right: 10px;
 	font-size: 16px;
 	cursor: pointer;
+	margin: 0;
+	padding: 0;
 }
-.btn-close:hover,
-.btn-close:focus {
-	color: #555;
+
+.btn-close img {
+	width: 2rem;
+	height: 2rem;
 }
+
 .popup-title {
 	color: #333;
 	font-size: 1.5rem;
