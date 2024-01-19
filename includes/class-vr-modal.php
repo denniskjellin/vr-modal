@@ -22,16 +22,28 @@ class Vr_Modal {
 
 public function save_post( $post_id, $post ) {
 
+    // Check if nonce is set.
     if (
+        !isset($_POST['vrm_meta_box_nonce']) || !wp_verify_nonce($_POST['vrm_meta_box_nonce'], 'vrm_meta_box_nonce') ||
         // Wrong post type
         ( $post->post_type !== 'custom_post_type' ) ||
-
         // Autosave is triggered
         ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) || ( $post->post_status === 'auto-draft' ) || wp_is_post_revision( $post )
     ) {
         return false;
     }
 
+    // Validate required fields
+    $required_fields = array( 'vrm_title', 'vrm_content');
+
+    foreach ( $required_fields as $field ) {
+        if ( empty( $_POST[ $field ] ) ) {
+            // If any required field is empty, show an error and do not save the post
+            wp_die( esc_html__( 'Error: Modalens titel och innehåll får ej vara tom. ', 'vr-modal' ) );
+        }
+    }
+
+    // Check the user's permissions.
     update_post_meta( $post_id, 'vrm_title', sanitize_text_field( $_POST['vrm_title'] ) );
     update_post_meta( $post_id, 'vrm_content', sanitize_textarea_field( $_POST['vrm_content'] ) );
     update_post_meta( $post_id, 'vrm_button_title', sanitize_text_field( $_POST['vrm_button_title'] ) );
@@ -39,6 +51,8 @@ public function save_post( $post_id, $post ) {
 }
 
 
+
+	// Add meta box to custom post type
 	public function add_meta_box( ){
 		add_meta_box(
 			'vr-modal-meta-box',
@@ -51,7 +65,12 @@ public function save_post( $post_id, $post ) {
 	}
 
 	public function render_meta_box( $post ){
+
+		// Add nonce for security and authentication.
+		wp_nonce_field('vrm_meta_box_nonce', 'vrm_meta_box_nonce');
+
 		?>
+		<!-- Add fields for data entry. -->
 		 <div>
 			<label for="vrm-title">Rubrik</label><br>
 			<input name="vrm_title" type="text" id="vrm-title" value="<?php echo get_post_meta( $post->ID, 'vrm_title', true );?>">
@@ -129,6 +148,7 @@ public function save_post( $post_id, $post ) {
 		return self::ID;
 	}
 
+	// Add menu page
 	public function add_menu_page()
 	{
 		// Check if the menu page already exists
@@ -206,11 +226,9 @@ public function get_modal_data() {
     }
 }
 
-
-
 	// Load settings page - wp admin
-public function load_settings_page()
-{
+	public function load_settings_page()
+	{
     ?>
     <div class="wrap">
         <h1><?php esc_html_e('VR Modal Inställningar', 'vr-modal-admin'); ?></h1>
@@ -236,7 +254,7 @@ public function load_settings_page()
         </form>
     </div>
     <?php
-}
+	}
 
 
 	// Load view - wp admin (might change later)
