@@ -227,7 +227,8 @@ public function load_settings_page()
 {
     ?>
     <div class="wrap">
-        <h1><?php esc_html_e('VR Modal Settings', 'vr-modal-admin'); ?></h1>
+        <h1><?php esc_html_e('VR Modal Inställningar', 'vr-modal-admin'); ?></h1>
+		<p>Modalen syns endast i aktiverat läge.</p>
 
         <form method="post" action="options.php">
             <?php settings_fields($this->get_id() . '_settings_group'); ?>
@@ -238,7 +239,7 @@ public function load_settings_page()
 
                 <!-- Toggle switch for enabling/disabling feature -->
                 <tr>
-                    <th scope="row"><label for="enable_feature">Enable Feature:</label></th>
+                    <th scope="row"><label for="enable_feature">Aktivera funktion:</label></th>
                     <td>
                         <input type="checkbox" name="<?php echo $this->get_id(); ?>_settings_data[enable_feature]" <?php checked(1, get_option($this->get_id() . '_settings_data')['enable_feature'] ?? 0); ?> value="1" />
                     </td>

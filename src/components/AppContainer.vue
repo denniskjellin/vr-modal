@@ -94,7 +94,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 #vr-modal {
   position: absolute;
   top: 0;
@@ -106,5 +106,9 @@ export default {
   height: 100vh;
   color: #000;
   font-family: Roboto, sans-serif, Arial, Helvetica;
+
+  h2 {
+    font-family: Roboto, sans-serif, Arial, Helvetica;
+  }
 }
 </style>
