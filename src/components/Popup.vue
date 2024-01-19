@@ -93,6 +93,7 @@ methods: {
 	position: relative;
 	border-radius: 8px;
 	padding: 2rem;
+	word-break: keep-all;
 }
 .btn-close {
 	color: #333;
@@ -120,16 +121,14 @@ methods: {
 }
 .navigation-link {
 	display: inline-block;
-	padding: 8px 16px;
 	margin-top: 10px;
-	text-decoration: none;
-	background-color: #0276a8;
-	color: #fff;
-	border-radius: 4px;
-	transition: background-color 0.3s;
+	text-decoration: underline;
+	font-weight: bold;
+	color: #555;
+	transition: text-decoration 0.3s ease-in-out;
 }
 .navigation-link:hover {
-	background-color: #2980b9;
+	text-decoration: none;
 }
 .generic-popup-h2:focus {
 	outline: none;

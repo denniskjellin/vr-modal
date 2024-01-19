@@ -20,35 +20,24 @@ class Vr_Modal {
 		add_action( 'save_post', array( $this, 'save_post'), 10, 2 );
 	}
 
-	public function save_post( $post_id, $post  ){
+public function save_post( $post_id, $post ) {
 
-		if (
-			/**
-			 * Wrong post type
-			 */
-			( $post->post_type !== 'custom_post_type' ) ||
+    if (
+        // Wrong post type
+        ( $post->post_type !== 'custom_post_type' ) ||
 
-			/**
-			 * Autosave is triggered
-			 */
-			( ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) || ( $post->post_status === 'auto-draft' ) || wp_is_post_revision( $post ) )
-		) {
-			return false;
-		}
+        // Autosave is triggered
+        ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) || ( $post->post_status === 'auto-draft' ) || wp_is_post_revision( $post )
+    ) {
+        return false;
+    }
 
-		// echo $post_id;
+    update_post_meta( $post_id, 'vrm_title', sanitize_text_field( $_POST['vrm_title'] ) );
+    update_post_meta( $post_id, 'vrm_content', sanitize_textarea_field( $_POST['vrm_content'] ) );
+    update_post_meta( $post_id, 'vrm_button_title', sanitize_text_field( $_POST['vrm_button_title'] ) );
+    update_post_meta( $post_id, 'vrm_button_url', esc_url( $_POST['vrm_button_url'] ) );
+}
 
-		// echo get_post_type( $post_id );
-		// echo "<pre>";
-		// print_r($_POST);
-
-		add_post_meta( $post_id, 'vrm_title', $_POST['vrm_title'], true );
-		add_post_meta( $post_id, 'vrm_content', $_POST['vrm_content'], true );
-		add_post_meta( $post_id, 'vrm_button_title', $_POST['vrm_button_title'], true );
-		add_post_meta( $post_id, 'vrm_button_url', $_POST['vrm_button_url'], true );
-		
-		
-	}
 
 	public function add_meta_box( ){
 		add_meta_box(
@@ -62,9 +51,6 @@ class Vr_Modal {
 	}
 
 	public function render_meta_box( $post ){
-	
-	//	echo "<pre>";
-	//	print_r( $post );
 		?>
 		 <div>
 			<label for="vrm-title">Rubrik</label><br>
