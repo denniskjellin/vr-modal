@@ -63,7 +63,7 @@ methods: {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .popup {
 	position: fixed;
 	z-index: 1;
@@ -88,12 +88,16 @@ methods: {
 .popup-content {
 	background-color: #ffffff;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-	max-width: 400px;
-	width: 80%;
+	max-width: 600px;
 	position: relative;
 	border-radius: 8px;
 	padding: 2rem;
 	word-break: keep-all;
+	margin: 0 1.5rem;
+}
+
+.popup-description {
+	max-width: 60ch;
 }
 .btn-close {
 	background: transparent;
@@ -114,7 +118,6 @@ methods: {
 
 .popup-title {
 	color: #333;
-	font-size: 1.5rem;
 	margin-bottom: 10px;
 	outline: none;
 }
@@ -134,8 +137,5 @@ methods: {
 }
 .navigation-link:hover {
 	text-decoration: none;
-}
-.generic-popup-h2:focus {
-	outline: none;
 }
 </style>

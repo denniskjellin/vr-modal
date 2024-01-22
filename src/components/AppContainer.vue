@@ -104,11 +104,5 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  color: #000;
-  font-family: Roboto, sans-serif, Arial, Helvetica;
-
-  h2 {
-    font-family: Roboto, sans-serif, Arial, Helvetica;
-  }
 }
 </style>
