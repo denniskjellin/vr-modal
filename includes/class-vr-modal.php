@@ -127,7 +127,7 @@ public function save_post( $post_id, $post ) {
 			'menu_position'       => 105,
 		);
 
-		register_post_type('custom_post_type', $args);
+		register_post_type('vr_modal_custom_post_type', $args);
 	}
 
 
