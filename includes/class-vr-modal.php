@@ -22,16 +22,17 @@ class Vr_Modal {
 
 public function save_post( $post_id, $post ) {
 
-    // Check if nonce is set.
-    if (
-        !isset($_POST['vrm_meta_box_nonce']) || !wp_verify_nonce($_POST['vrm_meta_box_nonce'], 'vrm_meta_box_nonce') ||
-        // Wrong post type
-        ( $post->post_type !== 'custom_post_type' ) ||
-        // Autosave is triggered
-        ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) || ( $post->post_status === 'auto-draft' ) || wp_is_post_revision( $post )
-    ) {
-        return false;
-    }
+// Check if nonce is set.
+if (
+    !isset($_POST['vrm_meta_box_nonce']) || !wp_verify_nonce($_POST['vrm_meta_box_nonce'], 'vrm_meta_box_nonce') ||
+    // Wrong post type
+    ( $post->post_type !== 'vr_modal_post_type' ) || // Corrected post type name
+    // Autosave is triggered
+    ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) || ( $post->post_status === 'auto-draft' ) || wp_is_post_revision( $post )
+) {
+    return false;
+}
+
 
     // Validate required fields
     $required_fields = array( 'vrm_title', 'vrm_content');
@@ -58,7 +59,7 @@ public function save_post( $post_id, $post ) {
 			'vr-modal-meta-box',
 			'VR Modal',
 			array($this, 'render_meta_box'),
-			'custom_post_type',
+			'vr_modal_post_type',
 			'normal',
 			'high'
 		);
@@ -127,7 +128,7 @@ public function save_post( $post_id, $post ) {
 			'menu_position'       => 105,
 		);
 
-		register_post_type('vr_modal_custom_post_type', $args);
+		register_post_type('vr_modal_post_type', $args);
 	}
 
 
@@ -205,7 +206,7 @@ public function get_modal_data() {
 
     if ($enable_feature) {
         $args  = array(
-            'post_type'      => 'custom_post_type',
+            'post_type'      => 'vr_modal_post_type',
             'posts_per_page' => -1,
         );
 
@@ -255,7 +256,6 @@ public function get_modal_data() {
     </div>
     <?php
 	}
-
 
 	// Load view - wp admin (might change later)
 	public function load_view()
