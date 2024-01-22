@@ -65,6 +65,7 @@ export default {
             console.log('firstPost Content:', firstPost.vrm_content);
             console.log('firstPost Button Title:', firstPost.vrm_button_title);
             console.log('firstPost Button URL:', firstPost.vrm_button_url);
+            console.log('url', urlEndpoint);
 
 
 
