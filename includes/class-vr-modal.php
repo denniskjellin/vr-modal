@@ -20,38 +20,35 @@ class Vr_Modal {
 		add_action( 'save_post', array( $this, 'save_post'), 10, 2 );
 	}
 
-public function save_post( $post_id, $post ) {
-
-// Check if nonce is set.
-if (
-    !isset($_POST['vrm_meta_box_nonce']) || !wp_verify_nonce($_POST['vrm_meta_box_nonce'], 'vrm_meta_box_nonce') ||
-    // Wrong post type
-    ( $post->post_type !== 'vr_modal_post_type' ) || // Corrected post type name
-    // Autosave is triggered
-    ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) || ( $post->post_status === 'auto-draft' ) || wp_is_post_revision( $post )
-) {
-    return false;
-}
-
+public function save_post($post_id, $post)
+{
+    // Check the user's capabilities
+    if (!current_user_can('edit_post', $post_id)) {
+        return false;
+    }
 
     // Validate required fields
-    $required_fields = array( 'vrm_title', 'vrm_content');
+    $required_fields = array('vrm_title', 'vrm_content');
 
-    foreach ( $required_fields as $field ) {
-        if ( empty( $_POST[ $field ] ) ) {
+    foreach ($required_fields as $field) {
+        if (empty($_POST[$field])) {
             // If any required field is empty, show an error and do not save the post
-            wp_die( esc_html__( 'Ops! Modalens titel och innehåll får ej vara tom. ', 'vr-modal' ) );
+            wp_die(esc_html__('Ops! Modalens titel och innehåll får ej vara tom. ', 'vr-modal'));
         }
     }
 
-    // Check the user's permissions.
-    update_post_meta( $post_id, 'vrm_title', sanitize_text_field( $_POST['vrm_title'] ) );
-    update_post_meta( $post_id, 'vrm_content', sanitize_textarea_field( $_POST['vrm_content'] ) );
-    update_post_meta( $post_id, 'vrm_button_title', sanitize_text_field( $_POST['vrm_button_title'] ) );
-    update_post_meta( $post_id, 'vrm_button_url', esc_url( $_POST['vrm_button_url'] ) );
+    // Check if URL is valid
+    $vrm_button_url = esc_url_raw($_POST['vrm_button_url']);
+    if (!filter_var($vrm_button_url, FILTER_VALIDATE_URL)) {
+        wp_die(esc_html__('Ops! Ogiltig URL.', 'vr-modal'));
+    }
+
+    // Save post meta
+    update_post_meta($post_id, 'vrm_title', sanitize_text_field($_POST['vrm_title']));
+    update_post_meta($post_id, 'vrm_content', sanitize_textarea_field($_POST['vrm_content']));
+    update_post_meta($post_id, 'vrm_button_title', sanitize_text_field($_POST['vrm_button_title']));
+    update_post_meta($post_id, 'vrm_button_url', $vrm_button_url);
 }
-
-
 
 	// Add meta box to custom post type
 	public function add_meta_box( ){
@@ -65,32 +62,42 @@ if (
 		);
 	}
 
-	public function render_meta_box( $post ){
+public function render_meta_box( $post ){
 
-		// Add nonce for security and authentication.
-		wp_nonce_field('vrm_meta_box_nonce', 'vrm_meta_box_nonce');
+    // Add nonce for security and authentication.
+    wp_nonce_field('vrm_meta_box_nonce', 'vrm_meta_box_nonce');
 
-		?>
-		<!-- Add fields for data entry. -->
-		 <div>
-			<label for="vrm-title">Rubrik modal</label><br>
-			<input name="vrm_title" type="text" id="vrm-title" value="<?php echo get_post_meta( $post->ID, 'vrm_title', true );?>">
-		</div> 
-		<div>
-			<label for="vrm-content">Innehåll modal</label>
-			<textarea name="vrm_content" rows="10" cols="" id="vrm_content" class="large-text"><?php echo esc_textarea(get_post_meta($post->ID, 'vrm_content', true)); ?></textarea>
-		</div>
-		<div>
-			<label for="vrm_button_title">Länk rubrik</label><br>
-			<input name="vrm_button_title" type="text" id="vrm_button_title" value="<?php echo get_post_meta( $post->ID, 'vrm_button_title', true );?>">
-		</div>
-		<div>
-			<label for="vrm_button_url">URL:</label><br>
-			<input name="vrm_button_url" type="text" id="vrm_button_url" value="<?php echo get_post_meta( $post->ID, 'vrm_button_url', true );?>">
-		</div>
-		
-			<?php
-	}
+    ?>
+    <!-- Add fields for data entry. -->
+    <div>
+        <label for="vrm-title">Rubrik</label><br>
+        <input name="vrm_title" type="text" id="vrm-title" value="<?php echo get_post_meta( $post->ID, 'vrm_title', true );?>">
+    </div> 
+    <div>
+        <label for="vrm-content">Innehåll</label>
+        <textarea name="vrm_content" rows="10" cols="" id="vrm_content" class="large-text"><?php echo esc_textarea(get_post_meta($post->ID, 'vrm_content', true)); ?></textarea>
+    </div>
+    <div>
+        <label for="vrm_button_title">Länk rubrik</label><br>
+        <input name="vrm_button_title" type="text" id="vrm_button_title" value="<?php echo get_post_meta( $post->ID, 'vrm_button_title', true );?>">
+    </div>
+    <div>
+        <label for="vrm_button_url">URL.</label><br>
+        <input name="vrm_button_url" type="text" id="vrm_button_url" value="<?php echo get_post_meta( $post->ID, 'vrm_button_url', true );?>">
+    </div>
+
+    <!-- Info Box -->
+    <div class="info-box">
+        <p><strong>Titel:</strong> modalens namn</p>
+		<p><strong>Rubrik:</strong> modalens rubrik som visas för besökaren.</p>
+		<p><strong>Innehåll:</strong> modalens innehåll som visas för besökaren.</p>
+		<p><strong>Länk:</strong> rubrik på lämnken som länkar till en annan sida.</p>
+		<p><strong>URL:</strong> länk till en annan sida.</p>
+    </div>
+    
+    <?php
+}
+
 
 	// Define custom post types
 	public function register_custom_post_type() {
