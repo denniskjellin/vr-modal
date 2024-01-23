@@ -65,77 +65,85 @@ methods: {
 
 <style scoped lang="scss">
 .popup {
-	position: fixed;
-	z-index: 1;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
 .popup-overlay {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background-color: rgba(0, 0, 0, 0.4);
-	cursor: pointer;
-	opacity: 0.5;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  cursor: pointer;
 }
+
 .popup-content {
-	background-color: #ffffff;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-	max-width: 600px;
-	position: relative;
-	border-radius: 8px;
-	padding: 2rem;
-	word-break: keep-all;
-	margin: 0 1.5rem;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  max-width: 40rem;
+  position: relative;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  word-break: keep-all;
+  margin: 0 1.5rem;
 }
 
 .popup-description {
-	max-width: 60ch;
+  max-width: 60ch;
 }
+
 .btn-close {
-	background: transparent;
-	border: none;
-	position: absolute;
-	top: 10px;
-	right: 10px;
-	font-size: 16px;
-	cursor: pointer;
-	margin: 0;
-	padding: 0;
+  background: transparent;
+  border: none;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
 }
 
 .btn-close img {
-	width: 2rem;
-	height: 2rem;
+  width: 2rem;
+  height: 2rem;
 }
 
 .popup-title {
-	color: #333;
-	margin-bottom: 10px;
-	outline: none;
+  color: #333;
+  margin-bottom: 1rem;
+  outline: none;
 }
+
 .popup-description {
-	color: #555;
-	font-size: 1rem;
-	line-height: 1.4;
-	margin-top: 0;
+  color: #555;
+  font-size: 1rem;
+  line-height: 1.4;
+  margin-top: 0;
+  margin-bottom: 1rem; 
 }
+
+
 .navigation-link {
-	display: inline-block;
-	margin-top: 10px;
-	text-decoration: underline;
-	font-weight: bold;
-	color: #555;
-	transition: text-decoration 0.3s ease-in-out;
+  display: inline-block;
+  margin-top: 1rem;
+  text-decoration: underline;
+  font-weight: bold;
+  color: #555;
+  transition: text-decoration 0.3s ease-in-out;
 }
+
 .navigation-link:hover {
-	text-decoration: none;
+  text-decoration: none;
 }
 </style>
+

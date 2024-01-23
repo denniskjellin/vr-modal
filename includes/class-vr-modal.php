@@ -123,7 +123,7 @@ if (
 			'has_archive'         => true,
 			'hierarchical'        => false,
 			'menu_position'       => null,
-			'supports'            => array('title', 'thumbnail','page-attributes'),
+			'supports'            => array('title', 'author', 'revisions'),
 			'menu_icon'           => 'dashicons-nametag',
 			'menu_position'       => 105,
 		);
@@ -176,8 +176,8 @@ if (
 			// Add submenu page
 			add_submenu_page(
 				$this->get_id(),
-				esc_html__('Settings', 'vr-modal-admin'),
-				esc_html__('Settings', 'vr-modal-admin'),
+				esc_html__('Inställningar', 'vr-modal-admin'),
+				esc_html__('Inställningar', 'vr-modal-admin'),
 				'manage_options',
 				$this->get_id() . '_settings',
 				array($this, 'load_settings_page')
@@ -233,7 +233,7 @@ public function get_modal_data() {
     ?>
     <div class="wrap">
         <h1><?php esc_html_e('VR Modal Inställningar', 'vr-modal-admin'); ?></h1>
-		<p>Modalen syns endast i aktiverat läge.</p>
+		<p>Modalen visas endast när funktionen är aktiverad.</p>
 
         <form method="post" action="options.php">
             <?php settings_fields($this->get_id() . '_settings_group'); ?>
@@ -244,29 +244,52 @@ public function get_modal_data() {
 
                 <!-- Toggle switch for enabling/disabling feature -->
                 <tr>
-                    <th scope="row"><label for="enable_feature">Aktivera funktion:</label></th>
+                    <th scope="row"><label for="enable_feature">Aktivera VR Modal:</label></th>
                     <td>
                         <input type="checkbox" name="<?php echo $this->get_id(); ?>_settings_data[enable_feature]" <?php checked(1, get_option($this->get_id() . '_settings_data')['enable_feature'] ?? 0); ?> value="1" />
                     </td>
                 </tr>
             </table>
 
-            <?php submit_button(); ?>
+            <?php submit_button('Spara ändringar'); ?>
         </form>
     </div>
     <?php
 	}
 
-	// Load view - wp admin (might change later)
-	public function load_view()
-	{
-		?>
-		<div class="wrap">
-			<h1><?php esc_html_e('My Menu Section', 'vr-modal-admin'); ?></h1>
-			<p><?php esc_html_e('This is where the page content goes.', 'vr-modal-admin'); ?></p>
-		</div>
-		<?php
-	}
+	// Load view - wp admin
+public function load_view()
+{
+    ?>
+    <div class="wrap">
+        <h1><?php esc_html_e('Min menysektion', 'vr-modal-admin'); ?></h1>
+        <h2><?php esc_html_e('Hur VR-modaler fungerar', 'vr-modal-admin'); ?></h2>
+        <ol style="margin-bottom: 20px;">
+            <li>
+                <strong>Aktivering av Modal:</strong>
+                För att visa modalen, aktivera den i VR Modal-inställningarna genom att välja "Aktivera funktion."
+            </li>
+            <li>
+                <strong>Skapa Modal:</strong>
+                Gå till fliken "Modaler" och skapa en ny modalpost, alternativt använd knappen nedan. Den senast publicerade modalen kommer automatiskt att visas. För att styra vilken modal som visas, sätt andra till utkast och den önskade till publicerad.
+            </li>
+			            <li>
+                <strong>Innehåll:?</strong>
+            
+            </li>
+            <li>
+                <strong>Styra Visningsordning:</strong>
+                Använd publiceringsstatus för att ändra visningsordningen. Den senast publicerade modalen, eller den enda publicerade modalen, kommer att vara synlig för besökare.
+            </li>
+            <li>
+                <strong>Schemaläggning:</strong>
+                Schemalägg modaler genom att ange publiceringstid. Om det redan finns en aktiv modal kommer den att ersättas med den som publiceras därefter.
+            </li>
+        </ol>
+        <a href="<?php echo admin_url('post-new.php?post_type=vr_modal_post_type'); ?>" class="button-primary" style="margin-top: 10px;"><?php esc_html_e('Skapa ny VR Modal', 'vr-modal-admin'); ?></a>
+    </div>
+    <?php
+}
 }
 
 // Initialize the class on the 'plugins_loaded' action
