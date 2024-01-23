@@ -40,7 +40,7 @@ if (
     foreach ( $required_fields as $field ) {
         if ( empty( $_POST[ $field ] ) ) {
             // If any required field is empty, show an error and do not save the post
-            wp_die( esc_html__( 'Error: Modalens titel och innehåll får ej vara tom. ', 'vr-modal' ) );
+            wp_die( esc_html__( 'Ops! Modalens titel och innehåll får ej vara tom. ', 'vr-modal' ) );
         }
     }
 
@@ -73,19 +73,19 @@ if (
 		?>
 		<!-- Add fields for data entry. -->
 		 <div>
-			<label for="vrm-title">Rubrik</label><br>
+			<label for="vrm-title">Rubrik modal</label><br>
 			<input name="vrm_title" type="text" id="vrm-title" value="<?php echo get_post_meta( $post->ID, 'vrm_title', true );?>">
 		</div> 
 		<div>
-			<label for="vrm-content">Innehåll</label>
+			<label for="vrm-content">Innehåll modal</label>
 			<textarea name="vrm_content" rows="10" cols="" id="vrm_content" class="large-text"><?php echo esc_textarea(get_post_meta($post->ID, 'vrm_content', true)); ?></textarea>
 		</div>
 		<div>
-			<label for="vrm_button_title">Knapp rubrik</label><br>
+			<label for="vrm_button_title">Länk rubrik</label><br>
 			<input name="vrm_button_title" type="text" id="vrm_button_title" value="<?php echo get_post_meta( $post->ID, 'vrm_button_title', true );?>">
 		</div>
 		<div>
-			<label for="vrm_button_url">Knapp url</label><br>
+			<label for="vrm_button_url">URL:</label><br>
 			<input name="vrm_button_url" type="text" id="vrm_button_url" value="<?php echo get_post_meta( $post->ID, 'vrm_button_url', true );?>">
 		</div>
 		
@@ -172,16 +172,6 @@ if (
 				array($this, 'load_view'),
 				'dashicons-admin-page'
 			);
-
-			// Add submenu page
-			add_submenu_page(
-				$this->get_id(),
-				esc_html__('Inställningar', 'vr-modal-admin'),
-				esc_html__('Inställningar', 'vr-modal-admin'),
-				'manage_options',
-				$this->get_id() . '_settings',
-				array($this, 'load_settings_page')
-			);
 		}
 	}
 
@@ -227,21 +217,46 @@ public function get_modal_data() {
     }
 }
 
-	// Load settings page - wp admin
-	public function load_settings_page()
-	{
+
+	// Load view - wp admin
+public function load_view()
+{
     ?>
     <div class="wrap">
-        <h1><?php esc_html_e('VR Modal Inställningar', 'vr-modal-admin'); ?></h1>
-		<p>Modalen visas endast när funktionen är aktiverad.</p>
-
-        <form method="post" action="options.php">
+        <h1><?php esc_html_e('VR Modal Kontrollpanel', 'vr-modal-admin'); ?></h1>
+        <h2><?php esc_html_e('FAQ', 'vr-modal-admin'); ?></h2>
+        
+            <li>
+                <strong>Aktivering:</strong>
+                För att aktivera Vr Modal funktionen, gå till inställningar nedan och klicka i rutan "Aktivera VR Modal", avaktivera om ingen modal finns att visa.
+            </li>
+            <li>
+                <strong>Skapa Modal:</strong>
+                Gå till fliken "Modaler" och skapa en ny modalpost.
+            </li>
+			<li>
+                <strong>Innehåll:</strong> Ange vad du vill kalla modalen i titeln, exempelvis 'Nyhetsbrev' för att enkelt hålla koll på vilka modaler du har att arbeta med. Ange sedan rubrik och innehåll och resterande fält för att anpassa vad själva modalen ska visa.
+            </li>
+            <li>
+			<strong>Visningsordning:</strong>
+			Den nyaste modalen kommer att visas först. Genom att ändra en befintlig modal till utkast och samtidigt markera en annan som publicerad kommer den sistnämnda att visas istället.
+            </li>
+			<li>
+				<strong>Avpublicering:</strong>
+				Om du vill avpublicera en modal, sätt den till utkast. Om det inte finns någon annan modal publicerad kommer ingen modal att visas.
+			</li>
+            <li>
+                <strong>Schemaläggning:</strong>
+                Schemalägg modaler genom att ange publiceringstid. Om det redan finns en aktiv modal kommer den att ersättas med den som publiceras därefter.
+            </li>
+    
+	        <form method="post" action="options.php">
             <?php settings_fields($this->get_id() . '_settings_group'); ?>
             <?php do_settings_sections($this->get_id() . '_settings_group'); ?>
-
-            <table class="form-table">
-                <!-- Existing fields -->
-
+			<br><h2><?php esc_html_e('Inställningar', 'vr-modal-admin'); ?></h2>
+				<p>* Modalen visas endast när funktionen är aktiverad.</p>
+				<p>* Slå av funktionen om ingen modal ska användas.</p>
+				            <table class="form-table">
                 <!-- Toggle switch for enabling/disabling feature -->
                 <tr>
                     <th scope="row"><label for="enable_feature">Aktivera VR Modal:</label></th>
@@ -250,44 +265,9 @@ public function get_modal_data() {
                     </td>
                 </tr>
             </table>
-
             <?php submit_button('Spara ändringar'); ?>
         </form>
-    </div>
-    <?php
-	}
-
-	// Load view - wp admin
-public function load_view()
-{
-    ?>
-    <div class="wrap">
-        <h1><?php esc_html_e('Min menysektion', 'vr-modal-admin'); ?></h1>
-        <h2><?php esc_html_e('Hur VR-modaler fungerar', 'vr-modal-admin'); ?></h2>
-        <ol style="margin-bottom: 20px;">
-            <li>
-                <strong>Aktivering av Modal:</strong>
-                För att visa modalen, aktivera den i VR Modal-inställningarna genom att välja "Aktivera funktion."
-            </li>
-            <li>
-                <strong>Skapa Modal:</strong>
-                Gå till fliken "Modaler" och skapa en ny modalpost, alternativt använd knappen nedan. Den senast publicerade modalen kommer automatiskt att visas. För att styra vilken modal som visas, sätt andra till utkast och den önskade till publicerad.
-            </li>
-			            <li>
-                <strong>Innehåll:?</strong>
-            
-            </li>
-            <li>
-                <strong>Styra Visningsordning:</strong>
-                Använd publiceringsstatus för att ändra visningsordningen. Den senast publicerade modalen, eller den enda publicerade modalen, kommer att vara synlig för besökare.
-            </li>
-            <li>
-                <strong>Schemaläggning:</strong>
-                Schemalägg modaler genom att ange publiceringstid. Om det redan finns en aktiv modal kommer den att ersättas med den som publiceras därefter.
-            </li>
-        </ol>
-        <a href="<?php echo admin_url('post-new.php?post_type=vr_modal_post_type'); ?>" class="button-primary" style="margin-top: 10px;"><?php esc_html_e('Skapa ny VR Modal', 'vr-modal-admin'); ?></a>
-    </div>
+	</div>
     <?php
 }
 }
