@@ -27,6 +27,11 @@ public function save_post($post_id, $post)
         return false;
     }
 
+	  // Save post meta
+	if (!isset($_POST['vrm_title']) || !isset($_POST['vrm_content']) || !isset($_POST['vrm_button_title']) || !isset($_POST['vrm_button_url'])) {
+		return false;
+	}
+	
     // Validate required fields
     $required_fields = array('vrm_title', 'vrm_content');
 
