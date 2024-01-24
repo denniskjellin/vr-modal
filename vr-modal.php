@@ -21,8 +21,6 @@ define('VR_MODAL_DIR', 'vr-modal');
 require_once plugin_dir_path(__FILE__) . 'includes/class-vr-modal.php';
 require_once plugin_dir_path(__FILE__) . 'includes/class-util.php';
 
-
-// Run the plugin
 // Run the plugin
 function run_vr_modal() {
 	static $plugin_instance = null;

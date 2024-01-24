@@ -16,19 +16,35 @@ class Vr_Modal {
 
 	// Define plugin variables
 	public function __construct() {
-		// Add hooks for registering custom post type
+		// register custom post type
 		add_action('init', array($this, 'register_custom_post_type'));
+		
+		// Add meta box to custom post type
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_box') );
+
+		// Save post meta
 		add_action( 'save_post', array( $this, 'save_post'), 10, 2 );
+
+		// Validation script for custom post type
 		add_action('admin_enqueue_scripts', array($this, 'validate_script'));
+
+		// Custom css for custom post type
 		add_action( 'admin_head', array( $this, 'custom_css' ) );
+
+		//change title hook
+		add_filter( 'enter_title_here', array( $this, 'change_post_title_placeholder' ), 20, 2 );
+		  Util::logger('Vr_Modal loaded13371');
 	}
 
+
+
+	// validation script for custom post type (jquery)
 	public function validate_script(){    
   	wp_enqueue_script('vr-validate', plugin_dir_url(__FILE__) . 'jquery-validation-1.19.5/dist/jquery.validate.min.js', array('jquery'));
-  	wp_enqueue_script('vr-validate-admin-script', plugin_dir_url(__FILE__) . 'vr-modal.js', array('jquery','vr-validate'));
+  	wp_enqueue_script('vr-validate-admin-script', plugin_dir_url(__FILE__) . 'vr-modal-validation.js', array('jquery','vr-validate'));
 	}
 
+	// custom css for validation on custom post type vr-modal
 	public function custom_css() {
 		$screen = get_current_screen();
 		if ( 'vr_modal_post_type' !== $screen->id && 'post' !== $screen->base ) {
@@ -37,15 +53,30 @@ class Vr_Modal {
 		?>
 		<style>
 		#vr-modal-meta-box input[type="text"].error {
-			border: 10px solid red;
+			border: 2px solid red;
 		}
 		#vr-modal-meta-box textarea.error {
-			border: 10px solid red;
+			border: 2px solid red;
 		}
 		</style>
 		<?php
 	}
 
+	// Custom title placeholder for infobox. */
+public function change_post_title_placeholder( $title, $post ) {
+    $post_type = 'vr_modal_post_type';
+
+    if ( post_type_exists( $post_type ) && $post->post_type == $post_type ) {
+		$my_title = 'Ange modalens namn här (ex. Nyhetsbrev)';
+        return $my_title;
+    }
+
+    return $title;
+}
+
+
+
+// save function for custom post type	
 public function save_post($post_id, $post)
 {
     // Check the user's capabilities
@@ -53,26 +84,23 @@ public function save_post($post_id, $post)
         return false;
     }
 
-	  // Save post meta
+	  // check if form is set or not.
 	if (!isset($_POST['vrm_title']) || !isset($_POST['vrm_content']) || !isset($_POST['vrm_button_title']) || !isset($_POST['vrm_button_url'])) {
 		return false;
 	}
 	
-    // Validate required fields
-    $required_fields = array('vrm_title', 'vrm_content');
-
-    foreach ($required_fields as $field) {
-        if (empty($_POST[$field])) {
-            // If any required field is empty, show an error and do not save the post
-            wp_die(esc_html__('Ops! Modalens titel och innehåll får ej vara tom. ', 'vr-modal'));
-        }
-    }
+    // foreach ($required_fields as $field) {
+    //     if (empty($_POST[$field])) {
+    //         // If any required field is empty, show an error and do not save the post
+    //         wp_die(esc_html__('Ops! Modalens titel och innehåll får ej vara tom. ', 'vr-modal'));
+    //     }
+    // }
 
     // Check if URL is valid
-    $vrm_button_url = esc_url_raw($_POST['vrm_button_url']);
-    if (!filter_var($vrm_button_url, FILTER_VALIDATE_URL)) {
-        wp_die(esc_html__('Ops! Ogiltig URL.', 'vr-modal'));
-    }
+    // $vrm_button_url = esc_url_raw($_POST['vrm_button_url']);
+    // if (!filter_var($vrm_button_url, FILTER_VALIDATE_URL)) {
+    //     wp_die(esc_html__('Ops! Ogiltig URL.', 'vr-modal'));
+    // }
 
     // Save post meta
     update_post_meta($post_id, 'vrm_title', sanitize_text_field($_POST['vrm_title']));
