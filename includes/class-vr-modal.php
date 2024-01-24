@@ -33,8 +33,10 @@ class Vr_Modal {
 
 		//change title hook
 		add_filter( 'enter_title_here', array( $this, 'change_post_title_placeholder' ), 20, 2 );
-		  Util::logger('Vr_Modal loaded13371');
+		
+		// Util::logger('Vr_Modal class loaded');
 	}
+	
 
 
 
@@ -67,7 +69,7 @@ public function change_post_title_placeholder( $title, $post ) {
     $post_type = 'vr_modal_post_type';
 
     if ( post_type_exists( $post_type ) && $post->post_type == $post_type ) {
-		$my_title = 'Ange modalens namn här (ex. Nyhetsbrev)';
+		$my_title = 'Ange modalens namn här (ex. Nyhetsbrev december)';
         return $my_title;
     }
 
@@ -79,6 +81,9 @@ public function change_post_title_placeholder( $title, $post ) {
 // save function for custom post type	
 public function save_post($post_id, $post)
 {
+	// Add nonce for security and authentication.
+	$nonce_name   = isset($_POST['vrm_meta_box_nonce']) ? $_POST['vrm_meta_box_nonce'] : '';
+
     // Check the user's capabilities
     if (!current_user_can('edit_post', $post_id)) {
         return false;
@@ -89,24 +94,11 @@ public function save_post($post_id, $post)
 		return false;
 	}
 	
-    // foreach ($required_fields as $field) {
-    //     if (empty($_POST[$field])) {
-    //         // If any required field is empty, show an error and do not save the post
-    //         wp_die(esc_html__('Ops! Modalens titel och innehåll får ej vara tom. ', 'vr-modal'));
-    //     }
-    // }
-
-    // Check if URL is valid
-    // $vrm_button_url = esc_url_raw($_POST['vrm_button_url']);
-    // if (!filter_var($vrm_button_url, FILTER_VALIDATE_URL)) {
-    //     wp_die(esc_html__('Ops! Ogiltig URL.', 'vr-modal'));
-    // }
-
     // Save post meta
     update_post_meta($post_id, 'vrm_title', sanitize_text_field($_POST['vrm_title']));
     update_post_meta($post_id, 'vrm_content', sanitize_textarea_field($_POST['vrm_content']));
     update_post_meta($post_id, 'vrm_button_title', sanitize_text_field($_POST['vrm_button_title']));
-    update_post_meta($post_id, 'vrm_button_url', $vrm_button_url);
+    update_post_meta($post_id, 'vrm_button_url', sanitize_text_field($_POST['vrm_button_url']));
 }
 
 	// Add meta box to custom post type
@@ -122,32 +114,33 @@ public function save_post($post_id, $post)
 	}
 
 public function render_meta_box( $post ){
-
     // Add nonce for security and authentication.
     wp_nonce_field('vrm_meta_box_nonce', 'vrm_meta_box_nonce');
-
     ?>
     <!-- Add fields for data entry. -->
     <div>
-        <label for="vrm-title">Rubrik</label><br>
-        <input name="vrm_title" type="text" id="vrm-title" value="<?php echo get_post_meta( $post->ID, 'vrm_title', true );?>">
+        <label for="vrm-title">Ange rubrik för din modal.</label><br>
+        <input name="vrm_title" type="text" placeholder="Rubriken som syns i modalen för besökaren" id="vrm-title" value="<?php echo get_post_meta( $post->ID, 'vrm_title', true );?>" style="width: 100%;">
     </div> 
     <div>
-        <label for="vrm-content">Innehåll</label>
-        <textarea name="vrm_content" rows="10" cols="" id="vrm_content" class="large-text"><?php echo esc_textarea(get_post_meta($post->ID, 'vrm_content', true)); ?></textarea>
+        <label for="vrm-content">Ange innehållet för din modal.</label><br>
+        <textarea name="vrm_content" rows="10" cols="" placeholder="Textuellt innehåll som syns för besökaren" id="vrm_content" class="large-text" style="width: 100%;"><?php echo esc_textarea(get_post_meta($post->ID, 'vrm_content', true)); ?></textarea>
     </div>
     <div>
-        <label for="vrm_button_title">Länk rubrik</label><br>
-        <input name="vrm_button_title" type="text" id="vrm_button_title" value="<?php echo get_post_meta( $post->ID, 'vrm_button_title', true );?>">
+        <label for="vrm_button_title">Ange rubrik för länken i din modal.</label><br>
+        <input name="vrm_button_title" type="text" placeholder="Vidare till nyhetsbrevet" id="vrm_button_title" value="<?php echo get_post_meta( $post->ID, 'vrm_button_title', true );?>" style="width: 100%;">
     </div>
     <div>
-        <label for="vrm_button_url">URL.</label><br>
-        <input name="vrm_button_url" type="text" id="vrm_button_url" value="<?php echo get_post_meta( $post->ID, 'vrm_button_url', true );?>">
+        <label for="vrm_button_url">Ange URL för din länk i modalen.</label><br>
+        <input name="vrm_button_url" type="text" placeholder="https://www.genteknik.se/nyhetsbrev" id="vrm_button_url" value="<?php echo get_post_meta( $post->ID, 'vrm_button_url', true );?>" style="width: 100%;">
     </div>
-
-
+    <div>
+        <p class="description">* samtliga fält är obligatoriska.</p>
+    </div>
     <?php
 }
+
+
 
 
 	// Define custom post types
@@ -327,8 +320,5 @@ public function load_view()
         </form>
 	</div>
     <?php
+ }
 }
-}
-
-// Initialize the class on the 'plugins_loaded' action
-// add_action('plugins_loaded', array('Vr_Modal', 'init'));

@@ -1,9 +1,9 @@
 jQuery(function ($) {
-    // Ensure that the form ID matches the ID of your meta box form
+    // Validation for the form
     var formSelector = '#post';
 
     $(formSelector).validate({
-        // Define your validation rules and messages
+        // validation rules and messages
         rules: {
             'vrm_title': {
                 required: true
@@ -21,27 +21,24 @@ jQuery(function ($) {
         },
         messages: {
             'vrm_title': {
-                required: 'Fältet är obligatoriskt.'
+                required: ' <strong>Rubrik är obligatoriskt.</strong>'
             },
             'vrm_content': {
-                required: 'Fältet är obligatoriskt.'
+                required: ' <strong>Innehåll är obligatoriskt.</strong>'
             },
             'vrm_button_title': {
-                required: 'Fältet är obligatoriskt.'
+                required: ' <strong>Länk rubrik är obligatoriskt.</strong>'
             },
             'vrm_button_url': {
-                required: 'Fältet är obligatoriskt.',
-                url: 'Ange en giltig URL'
+                required: ' URL är obligatoriskt.',
+                url: ' <strong>Ange en giltig URL - https://exempel.se/</strong>'
             }
         },
-        // Specify where to display the error messages
+
+        // Error placement
         errorPlacement: function (error, element) {
+            // Use error.appendTo to automatically insert in the correct location
             error.appendTo(element.parent());
-
-            //console.log(element);
-
-            $('.wrap').prepend('<div class="notice notice-error is-dismissible"><p>asdfsafafsd' + error[0].innerText + '</p></div>');
         }
     });
-
 });
