@@ -19,13 +19,21 @@ define('VR_MODAL_VERSION', '1.0.0');
 define('VR_MODAL_DIR', 'vr-modal');
 
 require_once plugin_dir_path(__FILE__) . 'includes/class-vr-modal.php';
+require_once plugin_dir_path(__FILE__) . 'includes/class-util.php';
+
 
 // Run the plugin
+// Run the plugin
 function run_vr_modal() {
-	$plugin = new Vr_Modal();
-	$plugin->init();
+	static $plugin_instance = null;
+
+	if (null === $plugin_instance) {
+		$plugin_instance = new Vr_Modal();
+		$plugin_instance->init();
+	}
 }
 add_action('plugins_loaded', 'run_vr_modal');
+
 
 // Enqueue Vue.js files on WordPress pages
 function enqueue_vue_scripts() {

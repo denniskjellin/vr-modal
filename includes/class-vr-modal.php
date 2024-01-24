@@ -5,6 +5,8 @@
  * @author Knowit Experience Norrland
  * @package vr-modal
  */
+
+ use knowit\helper\Util;
 class Vr_Modal {
 	// Define plugin constants
 	const ID = 'vr-modal';
@@ -18,6 +20,30 @@ class Vr_Modal {
 		add_action('init', array($this, 'register_custom_post_type'));
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_box') );
 		add_action( 'save_post', array( $this, 'save_post'), 10, 2 );
+		add_action('admin_enqueue_scripts', array($this, 'validate_script'));
+		add_action( 'admin_head', array( $this, 'custom_css' ) );
+	}
+
+	public function validate_script(){    
+  	wp_enqueue_script('vr-validate', plugin_dir_url(__FILE__) . 'jquery-validation-1.19.5/dist/jquery.validate.min.js', array('jquery'));
+  	wp_enqueue_script('vr-validate-admin-script', plugin_dir_url(__FILE__) . 'vr-modal.js', array('jquery','vr-validate'));
+	}
+
+	public function custom_css() {
+		$screen = get_current_screen();
+		if ( 'vr_modal_post_type' !== $screen->id && 'post' !== $screen->base ) {
+			return;
+		}
+		?>
+		<style>
+		#vr-modal-meta-box input[type="text"].error {
+			border: 10px solid red;
+		}
+		#vr-modal-meta-box textarea.error {
+			border: 10px solid red;
+		}
+		</style>
+		<?php
 	}
 
 public function save_post($post_id, $post)
@@ -91,15 +117,7 @@ public function render_meta_box( $post ){
         <input name="vrm_button_url" type="text" id="vrm_button_url" value="<?php echo get_post_meta( $post->ID, 'vrm_button_url', true );?>">
     </div>
 
-    <!-- Info Box -->
-    <div class="info-box">
-        <p><strong>Titel:</strong> modalens namn</p>
-		<p><strong>Rubrik:</strong> modalens rubrik som visas för besökaren.</p>
-		<p><strong>Innehåll:</strong> modalens innehåll som visas för besökaren.</p>
-		<p><strong>Länk:</strong> rubrik på lämnken som länkar till en annan sida.</p>
-		<p><strong>URL:</strong> länk till en annan sida.</p>
-    </div>
-    
+
     <?php
 }
 
@@ -145,14 +163,14 @@ public function render_meta_box( $post ){
 
 
 	// Define plugin variables
-	public static function init()
+	public function init()
 	{
 		// Add menu page
-		add_action('admin_menu', array(new self, 'add_menu_page'), 1);
-		add_action('admin_init', array(new self, 'register_settings'));
+		add_action('admin_menu', array($this, 'add_menu_page'), 1);
+		add_action('admin_init', array($this, 'register_settings'));
 
 		// Register REST API endpoint
-		add_action('rest_api_init', array(new self, 'register_rest_endpoint'));
+		add_action('rest_api_init', array($this, 'register_rest_endpoint'));
 	}
 
 	// Define plugin functions
@@ -285,4 +303,4 @@ public function load_view()
 }
 
 // Initialize the class on the 'plugins_loaded' action
-add_action('plugins_loaded', array('Vr_Modal', 'init'));
+// add_action('plugins_loaded', array('Vr_Modal', 'init'));
