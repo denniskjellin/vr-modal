@@ -201,17 +201,22 @@ public function display_custom_column_content($column, $post_id) {
 }
 
 /**
- * Add custom column to the admin table
+ * Add custom column
  *
  * @param array $columns
  * @return array
  */
 
 public function add_custom_column($columns) {
-	$columns['vrm_title_column'] = 'Modal rubrik';
-	return $columns;
+    $new_columns = array();
+    foreach ($columns as $key => $value) {
+        $new_columns[$key] = $value;
+        if ($key === 'title') {
+            $new_columns['vrm_title_column'] = 'Modal rubrik';
+        }
+    }
+    return $new_columns;
 }
-
 
 public function manage_columns() {
 	add_filter('manage_vr_modal_post_type_posts_columns', array($this, 'add_custom_column'));
