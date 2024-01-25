@@ -20,6 +20,7 @@ define('VR_MODAL_DIR', 'vr-modal');
 
 require_once plugin_dir_path(__FILE__) . 'includes/class-vr-modal.php';
 require_once plugin_dir_path(__FILE__) . 'includes/class-util.php';
+ 
 
 // Run the plugin
 function run_vr_modal() {
@@ -43,16 +44,26 @@ add_action('wp_enqueue_scripts', 'enqueue_vue_scripts', 999);
 
 // Add shortcode
 add_action('wp_footer', 'modal');
+
 function modal() {
     // Check if the feature is enabled in the settings
     $enable_feature = get_option('vr-modal_settings_data')['enable_feature'] ?? 0;
 
-    // Output the modal code only if the feature is enabled
+    // Output the modal if the feature is enabled and data is available
     if ($enable_feature) {
-        ?>
-        <div id="vr-modal"></div>
-        <script type="text/javascript" src="<?php echo esc_url(plugin_dir_url(__FILE__) . 'dist/index.js'); ?>?ver=<?php echo esc_attr(VR_MODAL_VERSION); ?>" id="modal-js"></script>
-        <?php
+        $vr_modal = new VR_Modal();
+
+        $modal_data = $vr_modal->get_modal_data();
+
+        // Check if there is data available
+        if (!empty($modal_data)) {
+            ?>
+            <div id="vr-modal"></div>
+            <script type="text/javascript" src="<?php echo esc_url(plugin_dir_url(__FILE__) . 'dist/index.js'); ?>?ver=<?php echo esc_attr(VR_MODAL_VERSION); ?>" id="modal-js"></script>
+            <?php
+        }
     }
 }
+
+
 

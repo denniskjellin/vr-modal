@@ -311,7 +311,6 @@ public function load_view()
             <?php do_settings_sections($this->get_id() . '_settings_group'); ?>
 			<br><h2><?php esc_html_e('Inställningar', 'vr-modal-admin'); ?></h2>
 				<p>* Modalen visas endast när funktionen är aktiverad.</p>
-				<p>* Slå av funktionen om ingen modal ska användas.</p>
 				            <table class="form-table">
                 <!-- Toggle switch for enabling/disabling feature -->
                 <tr>
@@ -327,3 +326,4 @@ public function load_view()
     <?php
  }
 }
+
