@@ -14,6 +14,11 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+    if (!session_id()) {
+    session_start();
+    $_SESSION['show_modal'] = false;
+}
+
 // Define plugin constants
 define('VR_MODAL_VERSION', '1.0.0');
 define('VR_MODAL_DIR', 'vr-modal');
@@ -79,8 +84,6 @@ function modal() {
         }
     }
 }
-
-
 
 
 
