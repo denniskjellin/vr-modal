@@ -25,7 +25,6 @@ props: {
 	}
 },
 mounted() {
-console.log('Popup mounted with data:', this.jsonData);
 window.addEventListener('keydown', this.handleKeyboardNavigation);
 this.$refs['popup-title'].focus();
 this.$refs['popup-title'].tabIndex = -1;
