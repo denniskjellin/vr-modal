@@ -34,7 +34,7 @@ class Vr_Modal {
 		//change title hook
 		add_filter( 'enter_title_here', array( $this, 'change_post_title_placeholder' ), 20, 2 );
 		
-		// Util::logger('Vr_Modal class loaded');
+		Util::logger('Vr_Modal class loaded');
 	}
 	
 
@@ -60,6 +60,18 @@ class Vr_Modal {
 		#vr-modal-meta-box textarea.error {
 			border: 2px solid red;
 		}
+
+		strong.error {
+			color: red;
+		}
+
+		.vr-modal-box {
+			margin-top: 1rem;
+		}
+
+		input, textarea {
+			margin-top: 0.3rem;
+		}
 		</style>
 		<?php
 	}
@@ -75,8 +87,6 @@ public function change_post_title_placeholder( $title, $post ) {
 
     return $title;
 }
-
-
 
 // save function for custom post type	
 public function save_post($post_id, $post)
@@ -118,29 +128,27 @@ public function render_meta_box( $post ){
     wp_nonce_field('vrm_meta_box_nonce', 'vrm_meta_box_nonce');
     ?>
     <!-- Add fields for data entry. -->
-    <div>
-        <label for="vrm-title">Ange rubrik för din modal.</label><br>
+    <div class="vr-modal-box">
+        <label for="vrm-title">Ange rubrik:</label><br>
         <input name="vrm_title" type="text" placeholder="Rubriken som syns i modalen för besökaren" id="vrm-title" value="<?php echo get_post_meta( $post->ID, 'vrm_title', true );?>" style="width: 100%;">
     </div> 
-    <div>
-        <label for="vrm-content">Ange innehållet för din modal.</label><br>
+    <div class="vr-modal-box">
+        <label for="vrm-content">Ange innehållet:</label><br>
         <textarea name="vrm_content" rows="10" cols="" placeholder="Textuellt innehåll som syns för besökaren" id="vrm_content" class="large-text" style="width: 100%;"><?php echo esc_textarea(get_post_meta($post->ID, 'vrm_content', true)); ?></textarea>
     </div>
-    <div>
-        <label for="vrm_button_title">Ange rubrik för länken i din modal.</label><br>
+    <div class="vr-modal-box">
+        <label for="vrm_button_title">Ange rubrik för länken:</label><br>
         <input name="vrm_button_title" type="text" placeholder="Vidare till nyhetsbrevet" id="vrm_button_title" value="<?php echo get_post_meta( $post->ID, 'vrm_button_title', true );?>" style="width: 100%;">
     </div>
-    <div>
-        <label for="vrm_button_url">Ange URL för din länk i modalen.</label><br>
+    <div class="vr-modal-box">
+        <label for="vrm_button_url">Ange URL för länk:</label><br>
         <input name="vrm_button_url" type="text" placeholder="https://www.genteknik.se/nyhetsbrev" id="vrm_button_url" value="<?php echo get_post_meta( $post->ID, 'vrm_button_url', true );?>" style="width: 100%;">
     </div>
-    <div>
+    <div class="vr-modal-box">
         <p class="description">* samtliga fält är obligatoriska.</p>
     </div>
     <?php
 }
-
-
 
 
 	// Define custom post types
@@ -285,12 +293,9 @@ public function load_view()
                 <strong>Skapa Modal:</strong>
                 Gå till fliken "Modaler" och skapa en ny modalpost.
             </li>
-			<li>
-                <strong>Innehåll:</strong> Ange vad du vill kalla modalen i titeln, exempelvis 'Nyhetsbrev' för att enkelt hålla koll på vilka modaler du har att arbeta med. Ange sedan rubrik och innehåll och resterande fält för att anpassa vad själva modalen ska visa.
-            </li>
             <li>
 			<strong>Visningsordning:</strong>
-			Den nyaste modalen kommer att visas först. Genom att ändra en befintlig modal till utkast och samtidigt markera en annan som publicerad kommer den sistnämnda att visas istället.
+			Den senast skapade modalen är den som kommer att visas. Genom att ändra en befintlig modal till utkast och samtidigt markera en annan som publicerad kommer den sistnämnda att visas istället.
             </li>
 			<li>
 				<strong>Avpublicering:</strong>

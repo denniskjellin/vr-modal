@@ -21,17 +21,16 @@ jQuery(function ($) {
         },
         messages: {
             'vrm_title': {
-                required: ' <strong>Rubrik är obligatoriskt.</strong>'
+                required: ' <strong class="error">Rubrik är obligatoriskt.</strong>'
             },
             'vrm_content': {
-                required: ' <strong>Innehåll är obligatoriskt.</strong>'
+                required: ' <strong class="error">Innehåll är obligatoriskt.</strong>'
             },
             'vrm_button_title': {
-                required: ' <strong>Länk rubrik är obligatoriskt.</strong>'
+                required: ' <strong class="error">Länk rubrik är obligatoriskt.</strong>'
             },
             'vrm_button_url': {
-                required: ' URL är obligatoriskt.',
-                url: ' <strong>Ange en giltig URL - https://exempel.se/</strong>'
+                required: ' <strong class="error">URL är obligatoriskt.</strong>',
             }
         },
 
