@@ -55,8 +55,8 @@ function modal() {
 
     // Check if the query parameters indicate a newsletter link
     if (
-        isset($_GET['utm_medium']) && 'ungapped' === strtolower($_GET['utm_medium']) &&
-        isset($_GET['utm_source']) && 'email' === strtolower($_GET['utm_source'])
+        isset($_GET['utm_medium']) && strcasecmp($_GET['utm_medium'], 'ungapped') === 0 &&
+        isset($_GET['utm_source']) && strcasecmp($_GET['utm_source'], 'email') === 0
     ) {
         $is_newsletter = true;
     }
@@ -84,6 +84,7 @@ function modal() {
         }
     }
 }
+
 
 
 
