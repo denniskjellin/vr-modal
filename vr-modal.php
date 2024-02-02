@@ -61,7 +61,6 @@ function modal() {
         isset($_GET['utm_source']) && strcasecmp($_GET['utm_source'], 'email') === 0
     ) {
         $is_newsletter = true;
-        $_SESSION['show_modal'] = false;
     }
 
     // If it's a newsletter link - don't show the modal
@@ -69,11 +68,18 @@ function modal() {
         return;
     }
 
+
     // Check if the vr-modal is activated in settings
     $enable_feature = get_option('vr-modal_settings_data')['enable_feature'] ?? 0;
 
     // Check if the user has already seen the modal
     $show_modal = $_SESSION['show_modal'] ?? true;
+
+    // If the user has already seen the modal or the session has expired, return
+    if (!$show_modal) {
+        Util::logger('User has already seen the modal or session has expired!');
+        return;
+    }
 
     // Mark the modal as seen for the current session
     $_SESSION['show_modal'] = false;
@@ -93,6 +99,7 @@ function modal() {
         }
     }
 }
+
 
 
 
