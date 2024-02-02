@@ -53,50 +53,49 @@ add_action('wp_enqueue_scripts', 'enqueue_vue_scripts', 999);
 add_action('wp_footer', 'modal');
 
 function modal() {
-        $is_newsletter = false;
+    $is_newsletter = false;
 
-        // Check if the query parameters indicate a newsletter link
-        if (
-            isset($_GET['utm_medium']) && strcasecmp($_GET['utm_medium'], 'ungapped') === 0 &&
-            isset($_GET['utm_source']) && strcasecmp($_GET['utm_source'], 'email') === 0
-        ) {
-            $is_newsletter = true;
-        }
-
-        // If it's a newsletter link - don't show the modal
-        if ($is_newsletter) {
-            return;
-        }
-
-        // Check if the vr-modal is activated in settings
-        $enable_feature = get_option('vr-modal_settings_data')['enable_feature'] ?? 0;
-
-        // Check if the user has already seen the modal
-        $show_modal = $_SESSION['show_modal'] ?? true;
-        if (!$show_modal) {
-            Util::logger('User has already seen the modal!');
-            return;
-        }
-
-        // Mark the modal as seen for the current session
+    // Check if the query parameters indicate a newsletter link
+    if (
+        isset($_GET['utm_medium']) && strcasecmp($_GET['utm_medium'], 'ungapped') === 0 &&
+        isset($_GET['utm_source']) && strcasecmp($_GET['utm_source'], 'email') === 0
+    ) {
+        $is_newsletter = true;
         $_SESSION['show_modal'] = false;
+    }
 
-        // Output the vr-modal if the feature is activated and data is available
-        if ($enable_feature) {
-            $vr_modal = new VR_Modal();
+    // If it's a newsletter link - don't show the modal
+    if ($is_newsletter) {
+        return;
+    }
 
-            $modal_data = $vr_modal->get_modal_data();
+    // Check if the vr-modal is activated in settings
+    $enable_feature = get_option('vr-modal_settings_data')['enable_feature'] ?? 0;
 
-            // Check if there is data available
-            if (!empty($modal_data)) {
-                ?>
-                <div id="vr-modal"></div>
-                <script type="text/javascript" src="<?php echo esc_url(plugin_dir_url(__FILE__) . 'dist/index.js'); ?>?ver=<?php echo esc_attr(VR_MODAL_VERSION); ?>" id="modal-js"></script>
-                <?php
-            }
+    // Check if the user has already seen the modal
+    $show_modal = $_SESSION['show_modal'] ?? true;
+
+    // Mark the modal as seen for the current session
+    $_SESSION['show_modal'] = false;
+
+    // Output the vr-modal if the feature is activated and data is available
+    if ($enable_feature) {
+        $vr_modal = new VR_Modal();
+
+        $modal_data = $vr_modal->get_modal_data();
+
+        // Check if there is data available
+        if (!empty($modal_data)) {
+            ?>
+            <div id="vr-modal"></div>
+            <script type="text/javascript" src="<?php echo esc_url(plugin_dir_url(__FILE__) . 'dist/index.js'); ?>?ver=<?php echo esc_attr(VR_MODAL_VERSION); ?>" id="modal-js"></script>
+            <?php
         }
     }
-    
+}
+
+
+
 
 
 
