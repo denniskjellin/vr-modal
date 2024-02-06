@@ -36,7 +36,6 @@ export default {
   },
   mounted() {
     // Fetch data from WordPress and update popupData
-    console.log('Mounted hook called')
     this.fetchPopupData()
   },
   methods: {
@@ -47,14 +46,12 @@ export default {
       popupDiv.remove()
     },
     fetchPopupData() {
-      console.log('Fetching data from WordPress')
       const currentDomain = window.location.hostname
       const urlEndpoint = `https://${currentDomain}/wp-json/vr-modal/v1/modal-data`
 
       fetch(urlEndpoint)
         .then((response) => response.json())
         .then((data) => {
-          console.log('Data fetched:', data)
           // Check if data is not empty and has at least one post
           if (data.length > 0) {
             const firstPost = data[0]
@@ -74,7 +71,6 @@ export default {
         })
     },
     hasValidData(data) {
-      console.log('Checking if data is valid:...')
       return data.title || data.content || (data.btnText && data.url)
     }
   }
