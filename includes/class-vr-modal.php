@@ -369,7 +369,7 @@ public function render_meta_box( $post )
         	<input name="vrm_button_url" type="text" placeholder="https://www.genteknik.se/nyhetsbrev" id="vrm_button_url" value="<?php echo get_post_meta( $post->ID, 'vrm_button_url', true );?>" style="width: 100%;">
     </div>
     <div class="vr-modal-box">
-        <p class="description">* samtliga fält är obligatoriska.</p>
+        <p class="description">* Fält markerade med <em>asterisk <strong>(*)</strong></em> är obligatoriska.</p>
     </div>
     <?php
 }
