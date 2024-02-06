@@ -128,5 +128,3 @@ class Util {
 	}
 
 }
-
-//  tail -f debug.log 

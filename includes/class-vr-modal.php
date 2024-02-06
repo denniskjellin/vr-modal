@@ -47,15 +47,19 @@ class Vr_Modal {
 
 		// Add custom column to the admin table
 		add_action('admin_init', array($this, 'manage_columns'));
-		
+
 	}
 	
-
 	// Enqueue validation script for custom post type (jquery)
 	public function validate_script()
 	{    
-  	wp_enqueue_script('vr-validate', plugin_dir_url(__FILE__) . 'jquery-validation-1.19.5/dist/jquery.validate.min.js', array('jquery'));
-  	wp_enqueue_script('vr-validate-admin-script', plugin_dir_url(__FILE__) . 'vr-modal-validation.js', array('jquery','vr-validate'));
+		if (!wp_script_is('vr-validate', 'enqueued')) {
+			wp_enqueue_script('vr-validate', plugin_dir_url(__FILE__) . 'jquery-validation-1.19.5/dist/jquery.validate.min.js', array('jquery'));
+		}
+		if (!wp_script_is('vr-validate-admin-script', 'enqueued')) {
+			wp_enqueue_script('vr-validate-admin-script', plugin_dir_url(__FILE__) . 'vr-modal-validation.js', array('jquery', 'vr-validate'));
+		}
+
 	}
 
 	// custom css for validation on custom post type vr-modal
@@ -227,6 +231,7 @@ public function add_custom_column($columns)
     return $new_columns;
 }
 
+/* Add custom column to the admin table */
 public function manage_columns() {
 	add_filter('manage_vr_modal_post_type_posts_columns', array($this, 'add_custom_column'));
 	add_action('manage_vr_modal_post_type_posts_custom_column', array($this, 'display_custom_column_content'), 10, 2);
@@ -246,7 +251,29 @@ public function init()
 
 	// Register REST API endpoint
 	add_action('rest_api_init', array($this, 'register_rest_endpoint'));
+
+	// Set a persistent cookie when initializing
+    $this->set_persistent_cookie();
+
 }
+
+	/**
+     * Set a persistent cookie.
+     */
+    private function set_persistent_cookie() {
+        // Set a cookie to expire in 1 day
+        $expiration_time = time() + 20 * 60; // 20 minutes
+        setcookie('vr_modal_cookie', 'cookie_value', $expiration_time, '/');
+
+        // Check if the cookie is set
+        if (isset($_COOKIE['vr_modal_cookie'])) {
+            // Cookie is set, user has visited before
+			// do nothing
+        } else {
+            // Cookie is not set, user is visiting for the first time
+            setcookie('vr_modal_cookie', 'cookie_value', $expiration_time, '/');
+        }
+    }
 
 /**
  * Get the plugin ID.

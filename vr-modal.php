@@ -16,11 +16,6 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-// Start session if not started
-if (!session_id()) {
-    session_start();
-}
-
 // Define plugin constants
 define('VR_MODAL_VERSION', '1.0.0');
 define('VR_MODAL_DIR', 'vr-modal');
@@ -68,21 +63,20 @@ function modal() {
         return;
     }
 
-
     // Check if the vr-modal is activated in settings
     $enable_feature = get_option('vr-modal_settings_data')['enable_feature'] ?? 0;
 
-    // Check if the user has already seen the modal
-    $show_modal = $_SESSION['show_modal'] ?? true;
+    // Check if the vr_modal_cookie is set
+    $vr_modal_cookie_set = isset($_COOKIE['vr_modal_cookie']);
 
-    // If the user has already seen the modal or the session has expired, return
-    if (!$show_modal) {
-        Util::logger('User has already seen the modal or session has expired!');
+    // If the user has already seen the modal or the cookie is set, return
+    if ($vr_modal_cookie_set) {
         return;
     }
 
-    // Mark the modal as seen for the current session
-    $_SESSION['show_modal'] = false;
+    // Set the vr_modal_cookie
+    $expiration_time = time() + 24 * 60 * 60; // 1 day in seconds
+    setcookie('vr_modal_cookie', 'xxx', $expiration_time, '/');
 
     // Output the vr-modal if the feature is activated and data is available
     if ($enable_feature) {
@@ -99,11 +93,3 @@ function modal() {
         }
     }
 }
-
-
-
-
-
-
-
-
