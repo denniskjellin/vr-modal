@@ -76,12 +76,14 @@ function modal() {
 
     // Set the vr_modal_cookie
     $expiration_time = time() + 24 * 60 * 60; // 1 day in seconds
-    setcookie('vr_modal_cookie', 'xxx', $expiration_time, '/');
+    $cookie_value = 'modal_shown';
+    setcookie('vr_modal_cookie', $cookie_value, $expiration_time, '/');
 
     // Output the vr-modal if the feature is activated and data is available
     if ($enable_feature) {
         $vr_modal = new VR_Modal();
 
+        // Get the modal data
         $modal_data = $vr_modal->get_modal_data();
 
         // Check if there is data available
