@@ -353,11 +353,11 @@ public function render_meta_box( $post )
     ?>
     <!-- Add fields for data entry. -->
     <div class="vr-modal-box">
-        <label for="vrm-title">Ange rubrik:</label><br>
+        <label for="vrm-title">Ange rubrik *</label><br>
         	<input name="vrm_title" type="text" placeholder="Rubriken som syns i modalen för besökaren" id="vrm-title" value="<?php echo get_post_meta( $post->ID, 'vrm_title', true );?>" style="width: 100%;">
     </div> 
     <div class="vr-modal-box">
-        <label for="vrm-content">Ange innehållet:</label><br>
+        <label for="vrm-content">Ange innehållet *</label><br>
         	<textarea name="vrm_content" rows="10" cols="" placeholder="Textuellt innehåll som syns för besökaren" id="vrm_content" class="large-text" style="width: 100%;"><?php echo esc_textarea(get_post_meta($post->ID, 'vrm_content', true)); ?></textarea>
     </div>
     <div class="vr-modal-box">
@@ -366,10 +366,10 @@ public function render_meta_box( $post )
     </div>
     <div class="vr-modal-box">
         <label for="vrm_button_url">Ange URL för länk:</label><br>
-        	<input name="vrm_button_url" type="text" placeholder="https://www.genteknik.se/nyhetsbrev" id="vrm_button_url" value="<?php echo get_post_meta( $post->ID, 'vrm_button_url', true );?>" style="width: 100%;">
+        	<input name="vrm_button_url" type="text" placeholder="https://exempel.se" id="vrm_button_url" value="<?php echo get_post_meta( $post->ID, 'vrm_button_url', true );?>" style="width: 100%;">
     </div>
     <div class="vr-modal-box">
-        <p class="description">* samtliga fält är obligatoriska.</p>
+        <p class="description">* Fält markerade med <em>asterisk <strong>(*)</strong></em> är obligatoriska.</p>
     </div>
     <?php
 }
