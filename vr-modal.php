@@ -74,14 +74,17 @@ function modal() {
         return;
     }
 
-    // Set the vr_modal_cookie
+    // Set the vr_modal_cookie and set the expiration time to 20 minutes, equals a session
+    $cookie_value = 'modal_seen';
     $expiration_time = time() + 24 * 60 * 60; // 1 day in seconds
-    setcookie('vr_modal_cookie', 'xxx', $expiration_time, '/');
+    $cookie_set = setcookie('vr_modal_cookie', $cookie_value, $expiration_time, '/');
+
 
     // Output the vr-modal if the feature is activated and data is available
     if ($enable_feature) {
         $vr_modal = new VR_Modal();
 
+        // Get modal data with error handling
         $modal_data = $vr_modal->get_modal_data();
 
         // Check if there is data available
@@ -90,6 +93,9 @@ function modal() {
             <div id="vr-modal"></div>
             <script type="text/javascript" src="<?php echo esc_url(plugin_dir_url(__FILE__) . 'dist/index.js'); ?>?ver=<?php echo esc_attr(VR_MODAL_VERSION); ?>" id="modal-js"></script>
             <?php
+        } else {
+            // Log an error if the modal data is empty
+            error_log('No modal data available');
         }
     }
 }
