@@ -58,8 +58,8 @@ function modal() {
         $is_newsletter = true;
     }
 
-    // If it's a newsletter link - don't show the modal
-    if ($is_newsletter) {
+    // If it's a newsletter link or there is a '#' in the URL - don't show the modal
+    if ($is_newsletter || strpos($_SERVER['REQUEST_URI'], '#') !== false) {
         return;
     }
 
@@ -73,7 +73,6 @@ function modal() {
     if ($vr_modal_cookie_set) {
         return;
     }
-
 
     // Output the vr-modal if the feature is activated and data is available
     if ($enable_feature) {
