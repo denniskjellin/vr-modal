@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="showPopup">
     <Popup v-if="isPopupVisible" :jsonData="popupData" @close="closePopup" />
   </div>
 </template>
@@ -14,6 +14,7 @@ export default {
   },
   data() {
     return {
+      showPopup: false,
       isPopupVisible: false,
       popupData: {
         title: '',
@@ -35,6 +36,33 @@ export default {
     }
   },
   mounted() {
+    let showModal = true
+
+    // Check if the URL contains a specific query parameter
+    let url = window.location.search
+    if (url.includes('utm_medium=ungapped&utm_source=email')) {
+      showModal = false
+    }
+
+    // Check if modal cookie is set
+    let cookies = document.cookie.split(';')
+    for (let i = 0; i < cookies.length; i++) {
+      let cookie = cookies[i].split('=')
+      if (cookie[0].trim() === 'vr_modal_cookie') {
+        showModal = false
+      }
+    }
+
+    if (showModal) {
+      this.showPopup = true
+      // Set cookie to prevent modal from showing again
+      document.cookie = 'vr_modal_cookie=vr_modal_shown; expires=' + 0 + '; path=/'
+    } else {
+      const overlayElement = document.getElementById('vr-modal')
+      if (overlayElement) {
+        overlayElement.style.display = 'none'
+      }
+    }
     // Fetch data from WordPress and update popupData
     this.fetchPopupData()
   },

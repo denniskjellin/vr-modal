@@ -48,31 +48,8 @@ add_action('wp_enqueue_scripts', 'enqueue_vue_scripts', 999);
 add_action('wp_footer', 'modal');
 
 function modal() {
-    $is_newsletter = false;
-
-    // Check if the query parameters indicate a newsletter link
-    if (
-        isset($_GET['utm_medium']) && strcasecmp($_GET['utm_medium'], 'ungapped') === 0 &&
-        isset($_GET['utm_source']) && strcasecmp($_GET['utm_source'], 'email') === 0
-    ) {
-        $is_newsletter = true;
-    }
-
-    // If it's a newsletter link or there is a '#' in the URL - don't show the modal
-    if ($is_newsletter || strpos($_SERVER['REQUEST_URI'], '#') !== false) {
-        return;
-    }
-
     // Check if the vr-modal is activated in settings
     $enable_feature = get_option('vr-modal_settings_data')['enable_feature'] ?? 0;
-
-    // Check if the vr_modal_cookie is set
-    $vr_modal_cookie_set = isset($_COOKIE['vr_modal_cookie']);
-
-    // If the user has already seen the modal or the cookie is set, return
-    if ($vr_modal_cookie_set) {
-        return;
-    }
 
     // Output the vr-modal if the feature is activated and data is available
     if ($enable_feature) {

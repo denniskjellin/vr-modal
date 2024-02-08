@@ -253,7 +253,10 @@ public function init()
 	add_action('rest_api_init', array($this, 'register_rest_endpoint'));
 
 	// Set a persistent cookie when initializing
-    $this->set_persistent_cookie();
+	// if(!isset($_COOKIE['vr_modal_cookie'])) {
+	// 	$this->set_persistent_cookie();
+	// }
+    
 
 }
 
@@ -263,13 +266,13 @@ public function init()
 public function set_persistent_cookie() 
 {
     // Combines current timestamp with a random number to create a unique identifier
-    $unique_identifier = time() . '_' . mt_rand(); 
+    // $unique_identifier = time() . '_' . mt_rand(); 
 
-    // Set the cookie with a 20 minute expiration time
-    $expiration_time = time() + 20 * 60;
+    // // Set the cookie with a 20 minute expiration time
+    // $expiration_time = time() + 20 * 60;
 
     // Set the cookie for the entire site
-    $cookie_set = setcookie('vr_modal_cookie', $unique_identifier, $expiration_time, '/'); 
+    // $cookie_set = setcookie('vr_modal_cookie', 'vr_modal_shown', 0, '/'); 
 
 }
 
