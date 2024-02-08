@@ -257,23 +257,23 @@ public function init()
 
 }
 
-	/**
-     * Set a persistent cookie.
-     */
-    private function set_persistent_cookie() {
-        // Set a cookie to expire in 1 day
-        $expiration_time = time() + 20 * 60; // 20 minutes
-        setcookie('vr_modal_cookie', 'cookie_value', $expiration_time, '/');
+/**
+* Set a persistent cookie.
+*/
+public function set_persistent_cookie() 
+{
+    // Combines current timestamp with a random number to create a unique identifier
+    $unique_identifier = time() . '_' . mt_rand(); 
 
-        // Check if the cookie is set
-        if (isset($_COOKIE['vr_modal_cookie'])) {
-            // Cookie is set, user has visited before
-			// do nothing
-        } else {
-            // Cookie is not set, user is visiting for the first time
-            setcookie('vr_modal_cookie', 'cookie_value', $expiration_time, '/');
-        }
-    }
+    // Set the cookie with a 20 minute expiration time
+    $expiration_time = time() + 20 * 60;
+
+    // Set the cookie for the entire site
+    $cookie_set = setcookie('vr_modal_cookie', $unique_identifier, $expiration_time, '/'); 
+
+}
+
+
 
 /**
  * Get the plugin ID.

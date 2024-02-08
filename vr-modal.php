@@ -74,11 +74,6 @@ function modal() {
         return;
     }
 
-    // Set the vr_modal_cookie and set the expiration time to 20 minutes, equals a session
-    $cookie_value = 'modal_seen';
-    $expiration_time = time() + 24 * 60 * 60; // 1 day in seconds
-    $cookie_set = setcookie('vr_modal_cookie', $cookie_value, $expiration_time, '/');
-
 
     // Output the vr-modal if the feature is activated and data is available
     if ($enable_feature) {
