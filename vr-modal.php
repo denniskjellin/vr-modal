@@ -53,7 +53,7 @@ function modal() {
 
     // Output the vr-modal if the feature is activated and data is available
     if ($enable_feature) {
-        $vr_modal = new VR_Modal();
+        $vr_modal = new Vr_Modal();
 
         // Get modal data with error handling
         $modal_data = $vr_modal->get_modal_data();
