@@ -340,8 +340,8 @@ public function get_modal_data()
 
         return rest_ensure_response($_posts);
     } else {
-        // Feature is disabled, return an empty response or an appropriate message
-        return rest_ensure_response(array());
+        // Feature is disabled, return null
+        return null;
     }
 }
 

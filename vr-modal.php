@@ -45,9 +45,9 @@ add_action('wp_enqueue_scripts', 'enqueue_vue_scripts', 999);
 
 
 // Add shortcode
-add_action('wp_footer', 'modal');
+add_action('wp_footer', 'vr_modal_output');
 
-function modal() {
+function vr_modal_output() {
     // Check if the vr-modal is activated in settings
     $enable_feature = get_option('vr-modal_settings_data')['enable_feature'] ?? 0;
 
@@ -70,3 +70,4 @@ function modal() {
         }
     }
 }
+
