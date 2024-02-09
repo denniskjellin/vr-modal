@@ -36,13 +36,30 @@ export default {
     }
   },
   mounted() {
-    let showModal = true
-
     // Check if the URL contains a specific query parameter
     let url = window.location.search
-    if (url.includes('utm_medium=ungapped&utm_source=email')) {
-      showModal = false
+    if (
+      url.includes('?utm_medium=') ||
+      url.includes('&utm_medium=') ||
+      url.includes('?utm_source=') ||
+      url.includes('&utm_source=')
+    ) {
+      // Set cookie to indicate that the modal has been shown
+      document.cookie = 'vr_modal_cookie=vr_modal_shown; expires=' + 0 + '; path=/'
+
+      // Optionally, you can also immediately hide the modal if it's already visible
+      this.showPopup = false
+      const overlayElement = document.getElementById('vr-modal')
+      if (overlayElement) {
+        overlayElement.style.display = 'none'
+      }
+
+      // No need to proceed with the rest of the logic
+      return
     }
+
+    // Continue with the rest of the logic...
+    let showModal = true
 
     // Check if modal cookie is set
     let cookies = document.cookie.split(';')
