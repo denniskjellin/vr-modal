@@ -319,9 +319,9 @@ public function register_rest_endpoint()
  */
 public function get_modal_data() 
 {
-    $enable_feature = get_option($this->get_id() . '_settings_data')['enable_feature'] ?? 0;
+    $enable_vr_modal = get_option($this->get_id() . '_settings_data')['enable_vr_modal'] ?? 0;
 
-    if ($enable_feature) {
+    if ($enable_vr_modal) {
         $args  = array(
             'post_type'      => 'vr_modal_post_type',
             'posts_per_page' => -1,
@@ -410,9 +410,9 @@ public function load_view()
 				            	<table class="form-table">
                 				<!-- Toggle switch for enabling/disabling feature -->
                 					<tr>
-                    					<th scope="row"><label for="enable_feature">Aktivera VR Modal:</label></th>
+                    					<th scope="row"><label for="enable_vr_modal">Aktivera VR Modal:</label></th>
                     						<td>
-                        						<input type="checkbox" name="<?php echo $this->get_id(); ?>_settings_data[enable_feature]" <?php checked(1, get_option($this->get_id() . '_settings_data')['enable_feature'] ?? 0); ?> value="1" />
+                        						<input type="checkbox" name="<?php echo $this->get_id(); ?>_settings_data[enable_vr_modal]" <?php checked(1, get_option($this->get_id() . '_settings_data')['enable_vr_modal'] ?? 0); ?> value="1" />
                     						</td>
                 					</tr>
             					</table>

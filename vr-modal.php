@@ -49,16 +49,16 @@ add_action('wp_footer', 'vr_modal_output');
 
 function vr_modal_output() {
     // Check if the vr-modal is activated in settings
-    $enable_feature = get_option('vr-modal_settings_data')['enable_feature'] ?? 0;
+    $enable_vr_modal = get_option('vr-modal_settings_data')['enable_vr_modal'] ?? 0;
 
     // Return if the feature is not activated
-    if (!$enable_feature) {
+    if (!$enable_vr_modal) {
         echo 'The feature is not activated';
         return;
     }
 
     // Output the vr-modal if the feature is activated and data is available
-    if ($enable_feature) {
+    if ($enable_vr_modal) {
         $vr_modal = new Vr_Modal();
 
         // Get modal data with error handling
