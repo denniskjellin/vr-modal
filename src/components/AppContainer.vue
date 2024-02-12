@@ -93,6 +93,7 @@ export default {
     fetchPopupData() {
       const currentDomain = window.location.hostname
       const urlEndpoint = `https://${currentDomain}/wp-json/vr-modal/v1/modal-data`
+      // console.log('Fetching data from:', urlEndpoint)
 
       fetch(urlEndpoint)
         .then((response) => response.json())

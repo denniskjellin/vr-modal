@@ -51,6 +51,12 @@ function vr_modal_output() {
     // Check if the vr-modal is activated in settings
     $enable_feature = get_option('vr-modal_settings_data')['enable_feature'] ?? 0;
 
+    // Return if the feature is not activated
+    if (!$enable_feature) {
+        echo 'The feature is not activated';
+        return;
+    }
+
     // Output the vr-modal if the feature is activated and data is available
     if ($enable_feature) {
         $vr_modal = new Vr_Modal();
@@ -59,15 +65,33 @@ function vr_modal_output() {
         $modal_data = $vr_modal->get_modal_data();
 
         // Check if there is data available
-        if (!empty($modal_data)) {
-            ?>
-            <div id="vr-modal"></div>
-            <script type="text/javascript" src="<?php echo esc_url(plugin_dir_url(__FILE__) . 'dist/index.js'); ?>?ver=<?php echo esc_attr(VR_MODAL_VERSION); ?>" id="modal-js"></script>
-            <?php
+        if ($modal_data instanceof WP_REST_Response) {
+            $response_data = $modal_data->get_data();
+
+                // Echo or log the response data
+                echo '<pre>';
+                print_r($response_data);
+                echo '</pre>';
+
+            // Check if the response data is an empty array
+            if (is_array($response_data) && empty($response_data)) {
+                echo 'Data is an empty array, do not render the app';
+            } else {
+                echo 'Data is available, render the app here';
+                // Echo or log the response data
+                echo '<pre>';
+                print_r($response_data);
+                echo '</pre>';
+                ?>
+                <div id="vr-modal"></div>
+                <script type="text/javascript" src="<?php echo esc_url(plugin_dir_url(__FILE__) . 'dist/index.js'); ?>?ver=<?php echo esc_attr(VR_MODAL_VERSION); ?>" id="modal-js"></script>
+                <?php
+            }
         } else {
-            // Log an error if the modal data is empty
-            error_log('No modal data available');
+            // Log an error if the modal data is not an instance of WP_REST_Response
+            error_log('Invalid modal data format');
         }
     }
 }
+
 
