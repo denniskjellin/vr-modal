@@ -36,24 +36,30 @@ export default {
     }
   },
   mounted() {
+    console.log('Starting mounted function')
+
     // Check if the URL contains a specific query parameter
     let url = window.location.search
+    console.log('URL:', url)
+
     if (
       url.includes('?utm_medium=') ||
       url.includes('&utm_medium=') ||
       url.includes('?utm_source=') ||
       url.includes('&utm_source=')
     ) {
+      console.log('Query parameters found. Hiding modal.')
       // Set cookie to indicate that the modal has been shown
       document.cookie = 'vr_modal_cookie=vr_modal_shown; expires=' + 0 + '; path=/'
 
       // Optionally, you can also immediately hide the modal if it's already visible
       this.showPopup = false
       const overlayElement = document.getElementById('vr-modal')
-      if (overlayElement) {
-        overlayElement.style.display = 'none'
-      }
+      // if (overlayElement) {
+      //   overlayElement.style.display = 'none'
+      // }
 
+      console.log('Modal hidden. Exiting function.')
       // No need to proceed with the rest of the logic
       return
     }
@@ -71,15 +77,20 @@ export default {
     }
 
     if (showModal) {
+      console.log('Modal should be shown. Setting showPopup to true.')
       this.showPopup = true
       // Set cookie to prevent modal from showing again
       document.cookie = 'vr_modal_cookie=vr_modal_shown; expires=' + 0 + '; path=/'
     } else {
+      console.log('Modal should be hidden. Hiding modal.')
+      return
       const overlayElement = document.getElementById('vr-modal')
-      if (overlayElement) {
-        overlayElement.style.display = 'none'
-      }
+      // if (overlayElement) {
+      //   overlayElement.style.display = 'none'
+      // }
     }
+
+    console.log('Fetching data from WordPress and updating popupData.')
     // Fetch data from WordPress and update popupData
     this.fetchPopupData()
   },
@@ -93,18 +104,22 @@ export default {
     fetchPopupData() {
       const currentDomain = window.location.hostname
       const urlEndpoint = `https://${currentDomain}/wp-json/vr-modal/v1/modal-data`
-      // console.log('Fetching data from:', urlEndpoint)
 
       fetch(urlEndpoint)
-        .then((response) => response.json())
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`)
+          }
+          return response.json()
+        })
         .then((data) => {
           // Check if data is not empty and has at least one post
           if (data.length > 0) {
             const firstPost = data[0]
 
             // Update popupData with the data from the first post
-            this.popupData.title = firstPost.vrm_title
-            this.popupData.content = firstPost.vrm_content
+            this.popupData.title = firstPost.vrm_title || ''
+            this.popupData.content = firstPost.vrm_content || ''
             // If 'vrm_button_title' and 'link' are present in the post data, update them as well
             if ('vrm_button_title' in firstPost && 'vrm_button_url' in firstPost) {
               this.popupData.btnText = firstPost.vrm_button_title
@@ -113,7 +128,7 @@ export default {
           }
         })
         .catch((error) => {
-          console.error('Error fetching data from WordPress:', error)
+          console.error('Error fetching data from WordPress:', error.message)
         })
     },
     hasValidData(data) {

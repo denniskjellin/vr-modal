@@ -338,10 +338,12 @@ public function get_modal_data()
             $_posts[$key]['vrm_button_url']   = get_post_meta($post->ID, 'vrm_button_url', true);
         }
 
+		
         return rest_ensure_response($_posts);
     } else {
         // Feature is disabled, return null
         return null;
+
     }
 }
 
