@@ -97,8 +97,8 @@ if ($modal_data instanceof WP_REST_Response) {
         // print_r($response_data);
         // echo '</pre>';
         ?>
-        <div id="vr-modal"></div>
-        <script type="text/javascript" src="<?php echo esc_url(plugin_dir_url(__FILE__) . 'dist/index.js'); ?>?ver=<?php echo esc_attr(VR_MODAL_VERSION); ?>" id="modal-js"></script>
+        <div id="vr-modal"><?php echo nl2br(get_post_meta($post->ID, 'vrm_content', true)); ?></div>
+
         <?php
    
     }

@@ -1,6 +1,7 @@
 <template>
   <div v-if="showPopup">
     <Popup v-if="isPopupVisible" :jsonData="popupData" @close="closePopup" />
+    <div v-if="isPopupVisible" v-html="renderedContent"></div>
   </div>
 </template>
 
@@ -22,6 +23,15 @@ export default {
         btnText: '',
         url: ''
       }
+    }
+  },
+  computed: {
+    renderedContent() {
+      // Replace &nbsp; with regular spaces and convert HTML entities
+      const decodedContent = this.popupData.content.replace(/&nbsp;/g, ' ')
+
+      // Return the decoded content
+      return decodedContent
     }
   },
   watch: {

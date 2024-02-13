@@ -364,10 +364,20 @@ public function render_meta_box( $post )
         <label for="vrm-title">Ange rubrik *</label><br>
         	<input name="vrm_title" type="text" placeholder="Rubriken som syns i modalen för besökaren" id="vrm-title" value="<?php echo get_post_meta( $post->ID, 'vrm_title', true );?>" style="width: 100%;">
     </div> 
-    <div class="vr-modal-box">
-        <label for="vrm-content">Ange innehållet *</label><br>
-        	<textarea name="vrm_content" rows="10" cols="" placeholder="Textuellt innehåll som syns för besökaren" id="vrm_content" class="large-text" style="width: 100%;"><?php echo esc_textarea(get_post_meta($post->ID, 'vrm_content', true)); ?></textarea>
-    </div>
+	<div class="vr-modal-box">
+		<label for="vrm-content">Ange innehållet *</label><br>
+		<?php
+$content = get_post_meta($post->ID, 'vrm_content', true);
+wp_editor($content, 'vrm_content_editor', array(
+    'textarea_name' => 'vrm_content',
+    'editor_class'  => 'large-text',
+    'textarea_rows' => 10,
+    'media_buttons' => false,
+    'wpautop'       => false,  // Disable wpautop
+));
+
+		?>
+	</div>
     <div class="vr-modal-box">
         <label for="vrm_button_title">Ange rubrik för länken:</label><br>
         	<input name="vrm_button_title" type="text" placeholder="Vidare till nyhetsbrevet" id="vrm_button_title" value="<?php echo get_post_meta( $post->ID, 'vrm_button_title', true );?>" style="width: 100%;">
