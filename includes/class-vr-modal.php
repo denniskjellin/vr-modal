@@ -388,20 +388,27 @@ public function load_view()
     ?>
     <div class="wrap">
         <h1><?php esc_html_e('VR Modal - Info', 'vr-modal-admin'); ?></h1>
-			<h2>Aktivering</h2>
-				<p>För att aktivera Vr Modal funktionen, gå till inställningar nedan och klicka i rutan "Aktivera VR Modal", avaktivera om ingen modal finns att visa.</p>
+<h2>Aktivering</h2>
+<p>För att aktivera VR Modal-funktionen, gå till inställningarna nedan och klicka i rutan "Aktivera VR Modal". <br><strong>Avakativera</strong> funktionen är att rekommendera om ingen VR Modal ska visas.</p>
 
-			<h2>Skapa Modal</h2>
-				<p>Gå till fliken "Modaler" och skapa en ny modalpost.</p>
+<h2>Skapa ny VR Modal</h2>
+<p>Gå till fliken <strong>"Modaler"</strong> och skapa en ny modalpost. Notera att obligatoriska fält måste fyllas i för att VR Modalen ska vara giltig att publicera.</p>
 
-			<h2>Visningsordning</h2>
-				<p>Den senast skapade modalen är den som kommer att visas. Genom att ändra en befintlig modal till utkast och samtidigt markera en annan som publicerad kommer den sistnämnda att visas istället.</p>
+<h2>Visningsordning</h2>
+<p>Den senast skapade VR Modalen är den som visas för besökaren. Genom att ändra en befintlig VR Modal till utkast och samtidigt markera en annan som publicerad, kommer den sistnämnda att visas istället.</p>
 
-			<h2>Avpublicering</h2>
-				<p>Om du vill avpublicera en modal, sätt den till utkast. Om det inte finns någon annan modal publicerad kommer ingen modal att visas.</p>
+<h2>Avpublicering</h2>
+<p>Om du vill ta bort en VR Modal, sätt den till utkast eller radera den. Om ingen annan modal är publicerad visas ingen modal.</p>
 
-			<h2>Schemaläggning</h2>
-				<p>Schemalägg modaler genom att ange publiceringstid. Om det redan finns en aktiv modal kommer den att ersättas med den som publiceras därefter.</p>
+<h2>Schemaläggning</h2>
+<p>Schemalägg modaler genom att ange publiceringstid. Om det redan finns en aktiv VR Modal kommer den att ersättas med den som publiceras senare.</p>
+
+<h2>Besöksparametrar</h2>
+<p>Om en besökare når webbplatsen genom att klicka på en länk i ett nyhetsbrev med parametrarna "?utm_source=Ungapped&utm_medium=email", kommer popupen att förbli dold under resten av besökssessionen för den specifika användaren.</p>
+
+<h2>Visning</h2>
+<p>VR Modalen visas en gång per session, när besökaren har sett VR Modalen sätts en kaka som markerar att besökaren ej ska se VR Modalen under resterande tid av sessionen.</p>
+
 				
 	    <form method="post" action="options.php">
             <?php settings_fields($this->get_id() . '_settings_group'); ?>
