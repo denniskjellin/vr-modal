@@ -188,6 +188,7 @@ public function save_post($post_id, $post)
 			'supports'            => array('title', 'author', 'revisions'),
 			'menu_icon'           => 'dashicons-nametag',
 			'menu_position'       => 105,
+			'exclude_from_search' => true,
 		);
 
 		register_post_type('vr_modal_post_type', $args);
@@ -387,27 +388,34 @@ public function load_view()
 {
     ?>
     <div class="wrap">
-        <h1><?php esc_html_e('VR Modal - Info', 'vr-modal-admin'); ?></h1>
-<h2>Aktivering</h2>
-<p>För att aktivera VR Modal-funktionen, gå till inställningarna nedan och klicka i rutan "Aktivera VR Modal". <br><strong>Avakativera</strong> funktionen är att rekommendera om ingen VR Modal ska visas.</p>
+        <h1><?php esc_html_e('VR Modal - FAQ', 'vr-modal-admin'); ?></h1>
+<h2>Aktivering/Avaktivering</h2>
+<p>För att aktivera VR Modal-funktionen, gå till inställningarna nedan och klicka i rutan <strong>"Aktivera VR Modal"</strong>.</p>
+<p>Om ingen VR Modal ska visas på sidan är det rekommenderat att <strong>inaktivera</strong> pluginet</p>
 
 <h2>Skapa ny VR Modal</h2>
-<p>Gå till fliken <strong>"Modaler"</strong> och skapa en ny modalpost. Notera att obligatoriska fält måste fyllas i för att VR Modalen ska vara giltig att publicera.</p>
+<p>Öppna fliken <strong>"Modaler"</strong> och skapa en ny modalpost. Observera att alla obligatoriska fält måste fyllas i för att VR Modalen ska kunna publiceras.</p>
+
+<h2>Arkiv</h2>
+<p>För att granska tillgängliga VR Modaler, navigera till <strong>"VR Modal"</strong> i wp-admin-panelen och välj <strong>"Modaler"</strong>.</p>
+<p>Där kommer du att få en översikt över befintliga VR Modaler samt kort information om dem.</p>
 
 <h2>Visningsordning</h2>
-<p>Den senast skapade VR Modalen är den som visas för besökaren. Genom att ändra en befintlig VR Modal till utkast och samtidigt markera en annan som publicerad, kommer den sistnämnda att visas istället.</p>
+<p>Den senast publicerade VR Modalen är den som visas för besökaren. <br>Genom att ändra en befintlig VR Modal till utkast och samtidigt markera en annan som publicerad, kommer den sistnämnda att visas istället.</p>
 
 <h2>Avpublicering</h2>
-<p>Om du vill ta bort en VR Modal, sätt den till utkast eller radera den. Om ingen annan modal är publicerad visas ingen modal.</p>
+<p>För att ta bort en VR Modal, placera den i utkast eller radera den. Om ingen annan modal är publicerad kommer ingen modal att visas.</p>
 
 <h2>Schemaläggning</h2>
-<p>Schemalägg modaler genom att ange publiceringstid. Om det redan finns en aktiv VR Modal kommer den att ersättas med den som publiceras senare.</p>
+<p>Planera modaler genom att specificera publiceringstiden. Om en VR Modal redan är aktiv kommer den att ersättas av den som publiceras senare.</p>
 
 <h2>Besöksparametrar</h2>
-<p>Om en besökare når webbplatsen genom att klicka på en länk i ett nyhetsbrev med parametrarna "?utm_source=Ungapped&utm_medium=email", kommer popupen att förbli dold under resten av besökssessionen för den specifika användaren.</p>
+<p>Om en besökare når webbplatsen genom att klicka på en länk i ett nyhetsbrev med parametrarna <strong>"?utm_source=Ungapped&utm_medium=email"</strong>, <br>så kommer modalen att förbli dold under resten av besökssessionen för den specifika användaren.</p>
 
-<h2>Visning</h2>
-<p>VR Modalen visas en gång per session, när besökaren har sett VR Modalen sätts en kaka som markerar att besökaren ej ska se VR Modalen under resterande tid av sessionen.</p>
+<h2>Visning av VR Modalen</h2>
+<p>VR Modalen visas när en besökare kommer in på webbsidan, när VR Modalen har blivit visad så sätts en kaka (vr_modal_cookie) vilket gör att VR Modalen ej syns igen under denna session.</p>
+<p>Om besökaren kryssar ner sin webbläsare och går in på webbsidan på nytt, så kommer VR Modalen att återigen synas.</p>
+
 
 				
 	    <form method="post" action="options.php">
